@@ -9,7 +9,7 @@
           <div class="trust-item">
               <div class="trust-icon"><i class="ti ti-refresh"></i></div>
               <div class="trust-label">Pengembalian Gratis</div>
-              <div class="trust-sub">Retur mudah dalam 30 hari tanpa pertanyaan</div>
+              <div class="trust-sub">Retur mudah tanpa pertanyaan</div>
           </div>
           <div class="trust-item">
               <div class="trust-icon"><i class="ti ti-shield-check"></i></div>

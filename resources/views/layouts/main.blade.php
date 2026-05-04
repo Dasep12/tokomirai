@@ -4,19 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechNova.id — Solusi IT Terlengkap untuk Bisnis & Personal</title>
+    <title>Tokomirai — Solusi IT Terlengkap untuk Bisnis & Personal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }} ">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}?<?= date('ymdhis')  ?> ">
 </head>
 
 <body>
 
     <!-- LOADING -->
-    <div id="ldg" style="display:none;position:fixed;inset:0;background:rgba(255,255,255,.88);z-index:9999;align-items:center;justify-content:center">
-        <div style="width:44px;height:44px;border:3px solid var(--blue-l);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite"></div>
+    <div id="ldg" style="display: none; position: fixed; inset: 0; background: rgba(34, 99, 219, 0.45); z-index: 9999; align-items: center; justify-content: center;">
+        <div style="width: 44px; height: 44px; border: 3px solid var(--blue-l); border-top-color: var(--blue); border-radius: 50%; animation: spin .7s linear infinite;"></div>
     </div>
     <style>
         @keyframes spin {
@@ -29,84 +29,32 @@
     <!-- PROMO BAR -->
     <div class="promo-bar" id="promoBar">
         <i class="ti ti-discount-2"></i>
-        <span>Program Special Studi — <strong>Diskon s/d 40%</strong> untuk Laptop & Aksesoris IT. <a onclick="scrollToProducts()">Belanja Sekarang →</a></span>
+        <span>Program Special — <strong>Diskon s/d 5%</strong> untuk Laptop & Aksesoris IT. <a onclick="scrollToProducts()">Belanja Sekarang →</a></span>
         <button class="promo-bar-close" onclick="document.getElementById('promoBar').remove()">×</button>
     </div>
 
     <!-- UTILITY BAR -->
     <div class="utility-bar">
-        <a><i class="ti ti-map-pin"></i> Toko Kami</a>
+        <a target="_blank" href="https://www.google.com/maps/dir//Apartemen+Vasanta+Innopark,+Jl.+Kalimantan,+Gandamekar,+Kec.+Cikarang+Bar.,+Kabupaten+Bekasi,+Jawa+Barat+17530/@-6.2849024,107.085824,14z/data=!4m8!4m7!1m0!1m5!1m1!1s0x2e698fe230abdd3d:0xff20c0734390dde7!2m2!1d107.0856176!2d-6.2906623?hl=id-ID&entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D"><i class="ti ti-map-pin"></i> Toko Kami</a>
         <span class="sep">|</span>
-        <a><i class="ti ti-headset"></i> 0800-1234-5678</a>
+        <a target="_blank" href="https://wa.me/6285218026895"><i class="ti ti-headset"></i> 62 852-1802-6895</a>
         <span class="sep">|</span>
-        <a><i class="ti ti-truck"></i> Lacak Pesanan</a>
+        <!-- <a><i class="ti ti-truck"></i> Lacak Pesanan</a>
+        <span class="sep">|</span> -->
+        <!-- <a><i class="ti ti-user"></i> Masuk / Daftar</a>
         <span class="sep">|</span>
-        <a><i class="ti ti-user"></i> Masuk / Daftar</a>
-        <span class="sep">|</span>
-        <a><i class="ti ti-help-circle"></i> Dukungan</a>
+        <a><i class="ti ti-help-circle"></i> Dukungan</a> -->
     </div>
 
-    <!-- MAIN NAVBAR -->
-    <nav class="main-nav">
-        <div class="nav-inner">
-            <button class="hmbg" onclick="toggleMobSearch()"><i class="ti ti-menu-2"></i></button>
-            <a class="nav-logo" onclick="goHome()"><i class="ti ti-bolt"></i>TechNova<span class="dot">.</span>id</a>
-            <div class="nav-search">
-                <i class="ti ti-search si"></i>
-                <input type="text" id="dskSearch" placeholder="Cari laptop, router, SSD, dan lainnya..." oninput="doSearch()">
-            </div>
-            <div class="nav-actions">
-                <button class="nav-act-btn" onclick="goHome()"><i class="ti ti-home"></i><span>Beranda</span></button>
-                <button class="nav-act-btn"><i class="ti ti-heart"></i><span>Wishlist</span></button>
-                <button class="nav-act-btn"><i class="ti ti-user-circle"></i><span>Akun</span></button>
-                <button class="nav-act-btn" onclick="openCart()">
-                    <i class="ti ti-shopping-cart"></i>
-                    <span class="cart-badge" id="cBadge">0</span>
-                    <span>Keranjang</span>
-                </button>
-            </div>
-        </div>
-    </nav>
+    @include("layouts.navbar");
 
     <!-- MOBILE SEARCH -->
     <div class="mob-srch" id="mobSrch">
         <input type="text" id="mobSearch" placeholder="Cari produk IT..." oninput="doSearch()">
     </div>
 
-    <!-- CATEGORY NAV (desktop) -->
-    <nav class="cat-nav">
-        <div class="cat-nav-inner">
-            <div class="cat-nav-item active" onclick="setCatActive(this,'all')"><i class="ti ti-layout-grid"></i>Semua Produk</div>
-            <div class="cat-nav-item" onclick="setCatActive(this,'laptop')"><i class="ti ti-device-laptop"></i>Laptop & PC</div>
-            <div class="cat-nav-item" onclick="setCatActive(this,'networking')"><i class="ti ti-router"></i>Networking</div>
-            <div class="cat-nav-item" onclick="setCatActive(this,'storage')"><i class="ti ti-database"></i>Storage</div>
-            <div class="cat-nav-item" onclick="setCatActive(this,'aksesoris')"><i class="ti ti-mouse"></i>Aksesoris</div>
-            <div class="cat-nav-item" onclick="setCatActive(this,'monitor')"><i class="ti ti-device-desktop"></i>Monitor</div>
-            <div class="cat-nav-item" onclick="setCatActive(this,'server')"><i class="ti ti-server"></i>Server & NAS</div>
-            <div class="cat-nav-item" onclick="setCatActive(this,'security')"><i class="ti ti-shield-lock"></i>Security</div>
-            <div class="cat-nav-item" onclick="scrollToServices()"><i class="ti ti-tools"></i>Layanan Jasa</div>
-        </div>
-    </nav>
 
-    <!-- CART OVERLAY + DRAWER -->
-    <div class="overlay" id="ov" onclick="closeCart()"></div>
-    <div class="drawer" id="drw">
-        <div class="drw-hd">
-            <div class="drw-title"><i class="ti ti-shopping-cart"></i>Keranjang Belanja (<span id="drwCount">0</span> item)</div>
-            <button class="drw-cls" onclick="closeCart()"><i class="ti ti-x"></i></button>
-        </div>
-        <div class="drw-body" id="drwBody"></div>
-        <div class="drw-ft" id="drwFt" style="display:none">
-            <div class="sum-row"><span>Subtotal</span><span id="drwSub">Rp 0</span></div>
-            <div class="sum-row"><span>Ongkos Kirim</span><span>Rp 25.000</span></div>
-            <div class="sum-row"><span>PPN (11%)</span><span id="drwTax">Rp 0</span></div>
-            <div class="sum-row tot"><span>Total</span><span id="drwTot">Rp 0</span></div>
-            <button class="btn-co" onclick="goCheckout()"><i class="ti ti-credit-card"></i>Lanjut ke Pembayaran</button>
-        </div>
-    </div>
 
-    <!-- TOAST -->
-    <div class="toast-wrap" id="tw"></div>
 
     <!-- CONTENT -->
     @yield("content")
@@ -125,9 +73,12 @@
                 Keranjang
             </button>
             <button class="mob-nb" id="mn-svc" onclick="scrollToServices();setMobNav('svc')"><i class="ti ti-tools"></i>Jasa</button>
-            <button class="mob-nb" id="mn-acc"><i class="ti ti-user-circle"></i>Akun</button>
+            <!-- <button class="mob-nb" id="mn-acc"><i class="ti ti-user-circle"></i>Akun</button> -->
         </div>
     </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script>
     <script>
@@ -440,131 +391,15 @@
 
         /* ── STATE ─────────────────────────────────── */
         let cart = [];
-        let currentCat = 'all';
-        let coStep = 1;
-        let slideIdx = 0;
-        let slideTimer;
-
-        /* ── SLIDER ────────────────────────────────── */
-        function initSlider() {
-            slideTimer = setInterval(() => slideNav(1), 5000);
-        }
-
-        function slideNav(d) {
-            const slides = document.querySelectorAll('.slide');
-            const dots = document.querySelectorAll('.s-dot');
-            slides[slideIdx].classList.remove('active');
-            dots[slideIdx].classList.remove('active');
-            slideIdx = (slideIdx + d + slides.length) % slides.length;
-            slides[slideIdx].classList.add('active');
-            dots[slideIdx].classList.add('active');
-            clearInterval(slideTimer);
-            slideTimer = setInterval(() => slideNav(1), 5500);
-        }
-
-        function goSlide(i) {
-            const slides = document.querySelectorAll('.slide');
-            const dots = document.querySelectorAll('.s-dot');
-            slides[slideIdx].classList.remove('active');
-            dots[slideIdx].classList.remove('active');
-            slideIdx = i;
-            slides[slideIdx].classList.add('active');
-            dots[slideIdx].classList.add('active');
-        }
+        var currentCat = 'all';
 
 
+        /* ── SEARCH ───────────────────────────── */
+        function doSearch() {
+            const q = (document.getElementById('dskSearch')?.value ||
+                document.getElementById('mobSearch')?.value || '').toLowerCase();
 
-        /* ── CART ──────────────────────────────────── */
-        function addById(id) {
-            const p = PRODUCTS.find(x => x.id === id);
-            if (!p) return;
-            const ex = cart.find(x => x.id === id);
-            if (ex) ex.qty++;
-            else cart.push({
-                ...p,
-                qty: 1
-            });
-            updateBadges();
-            animateAddBtn(id);
-            toast('✅ ' + p.nm + ' ditambahkan ke keranjang!');
-        }
-
-        function animateAddBtn(id) {
-            const b = document.getElementById('ba' + id);
-            if (!b) return;
-            b.classList.add('added');
-            b.innerHTML = '<i class="ti ti-check"></i> Ditambahkan';
-            setTimeout(() => {
-                b.classList.remove('added');
-                b.innerHTML = '<i class="ti ti-cart-plus"></i> Beli';
-            }, 1400);
-        }
-
-        function updateBadges() {
-            const n = cart.reduce((s, x) => s + x.qty, 0);
-            document.getElementById('cBadge').textContent = n;
-            const m = document.getElementById('cBadgeMob');
-            if (m) m.textContent = n;
-        }
-
-        function openCart() {
-            document.getElementById('ov').classList.add('on');
-            document.getElementById('drw').classList.add('on');
-            renderDrawer();
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeCart() {
-            document.getElementById('ov').classList.remove('on');
-            document.getElementById('drw').classList.remove('on');
-            document.body.style.overflow = '';
-        }
-
-        function renderDrawer() {
-            const body = document.getElementById('drwBody');
-            const ft = document.getElementById('drwFt');
-            document.getElementById('drwCount').textContent = cart.reduce((s, x) => s + x.qty, 0);
-            if (!cart.length) {
-                body.innerHTML = '<div class="drw-empty"><i class="ti ti-shopping-cart-off"></i><br>Keranjang masih kosong<br><small style="font-size:.78rem">Tambahkan produk untuk mulai belanja</small></div>';
-                ft.style.display = 'none';
-                return;
-            }
-            body.innerHTML = cart.map(x => `
-    <div class="ci">
-      <div class="ci-img">${x.ic}</div>
-      <div class="ci-inf">
-        <div class="ci-nm">${x.nm}</div>
-        <div class="ci-pr">Rp ${(x.pr*x.qty).toLocaleString('id-ID')}</div>
-        <div class="ci-qty">
-          <button class="qb" onclick="chQty(${x.id},-1)"><i class="ti ti-minus" style="font-size:.7rem"></i></button>
-          <span class="qn">${x.qty}</span>
-          <button class="qb" onclick="chQty(${x.id},1)"><i class="ti ti-plus" style="font-size:.7rem"></i></button>
-        </div>
-      </div>
-      <button class="ci-rm" onclick="rmItem(${x.id})"><i class="ti ti-trash"></i></button>
-    </div>`).join('');
-            const sub = cart.reduce((s, x) => s + x.pr * x.qty, 0);
-            const tax = Math.round(sub * .11);
-            const tot = sub + 25000 + tax;
-            document.getElementById('drwSub').textContent = 'Rp ' + sub.toLocaleString('id-ID');
-            document.getElementById('drwTax').textContent = 'Rp ' + tax.toLocaleString('id-ID');
-            document.getElementById('drwTot').textContent = 'Rp ' + tot.toLocaleString('id-ID');
-            ft.style.display = 'block';
-        }
-
-        function chQty(id, d) {
-            const item = cart.find(x => x.id === id);
-            if (!item) return;
-            item.qty += d;
-            if (item.qty <= 0) cart = cart.filter(x => x.id !== id);
-            updateBadges();
-            renderDrawer();
-        }
-
-        function rmItem(id) {
-            cart = cart.filter(x => x.id !== id);
-            updateBadges();
-            renderDrawer();
+            loadProducts(currentCat, q);
         }
 
         /* ── CHECKOUT ──────────────────────────────── */
@@ -583,11 +418,11 @@
 
         function renderCoOrder() {
             document.getElementById('coOrderItems').innerHTML = cart.map(x => `
-    <div class="oi-row">
-      <div class="oi-img">${x.ic}</div>
-      <div class="oi-nm">${x.nm} <span style="color:var(--gray-b)">×${x.qty}</span></div>
-      <div class="oi-pr">Rp ${(x.pr*x.qty).toLocaleString('id-ID')}</div>
-    </div>`).join('');
+            <div class="oi-row">
+            <div class="oi-img">${x.ic}</div>
+            <div class="oi-nm">${x.nm} <span style="color:var(--gray-b)">×${x.qty}</span></div>
+            <div class="oi-pr">Rp ${(x.pr*x.qty).toLocaleString('id-ID')}</div>
+            </div>`).join('');
             const sub = cart.reduce((s, x) => s + x.pr * x.qty, 0);
             const tax = Math.round(sub * .11);
             document.getElementById('coSub').textContent = 'Rp ' + sub.toLocaleString('id-ID');
@@ -681,32 +516,32 @@
         function buildReview() {
             const pay = document.querySelector('.pay-opt.sel .pay-nm')?.textContent || '-';
             document.getElementById('reviewData').innerHTML = `
-    <div style="display:grid;grid-template-columns:auto 1fr;gap:.2rem .9rem">
-      <span style="color:var(--gray-b)">Penerima</span><strong>${document.getElementById('fn').value}</strong>
-      <span style="color:var(--gray-b)">Telepon</span><span>${document.getElementById('fp').value}</span>
-      <span style="color:var(--gray-b)">Email</span><span>${document.getElementById('fe').value}</span>
-      <span style="color:var(--gray-b)">Alamat</span><span>${document.getElementById('fa').value}, ${document.getElementById('fc_city').value} ${document.getElementById('fz').value}</span>
-      <span style="color:var(--gray-b)">Pengiriman</span><span>${document.getElementById('fship').value}</span>
-      <span style="color:var(--gray-b)">Pembayaran</span><strong style="color:var(--blue)">${pay}</strong>
-    </div>`;
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:.2rem .9rem">
+            <span style="color:var(--gray-b)">Penerima</span><strong>${document.getElementById('fn').value}</strong>
+            <span style="color:var(--gray-b)">Telepon</span><span>${document.getElementById('fp').value}</span>
+            <span style="color:var(--gray-b)">Email</span><span>${document.getElementById('fe').value}</span>
+            <span style="color:var(--gray-b)">Alamat</span><span>${document.getElementById('fa').value}, ${document.getElementById('fc_city').value} ${document.getElementById('fz').value}</span>
+            <span style="color:var(--gray-b)">Pengiriman</span><span>${document.getElementById('fship').value}</span>
+            <span style="color:var(--gray-b)">Pembayaran</span><strong style="color:var(--blue)">${pay}</strong>
+            </div>`;
             document.getElementById('reviewItems').innerHTML = cart.map(x => `
-    <div class="oi-row">
-      <div class="oi-img">${x.ic}</div>
-      <div class="oi-nm">${x.nm} ×${x.qty}</div>
-      <div class="oi-pr">Rp ${(x.pr*x.qty).toLocaleString('id-ID')}</div>
-    </div>`).join('');
+            <div class="oi-row">
+            <div class="oi-img">${x.ic}</div>
+            <div class="oi-nm">${x.nm} ×${x.qty}</div>
+            <div class="oi-pr">Rp ${(x.pr*x.qty).toLocaleString('id-ID')}</div>
+            </div>`).join('');
         }
 
         function placeOrder() {
             const oid = '#TN-' + Math.floor(100000 + Math.random() * 900000);
             document.getElementById('succOid').textContent = oid;
             document.getElementById('succDetail').innerHTML = `
-    <div style="display:grid;grid-template-columns:auto 1fr;gap:.15rem .9rem">
-      <span style="color:var(--gray-b)">Penerima</span><strong>${document.getElementById('fn').value}</strong>
-      <span style="color:var(--gray-b)">Alamat</span><span>${document.getElementById('fa').value}, ${document.getElementById('fc_city').value}</span>
-      <span style="color:var(--gray-b)">Pengiriman</span><span>${document.getElementById('fship').value}</span>
-      <span style="color:var(--gray-b)">Total</span><strong style="color:var(--blue)">${document.getElementById('coTot').textContent}</strong>
-    </div>`;
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:.15rem .9rem">
+            <span style="color:var(--gray-b)">Penerima</span><strong>${document.getElementById('fn').value}</strong>
+            <span style="color:var(--gray-b)">Alamat</span><span>${document.getElementById('fa').value}, ${document.getElementById('fc_city').value}</span>
+            <span style="color:var(--gray-b)">Pengiriman</span><span>${document.getElementById('fship').value}</span>
+            <span style="color:var(--gray-b)">Total</span><strong style="color:var(--blue)">${document.getElementById('coTot').textContent}</strong>
+            </div>`;
             const ld = document.getElementById('ldg');
             ld.style.display = 'flex';
             setTimeout(() => {
@@ -770,12 +605,8 @@
             setTimeout(() => {
                 t.style.animation = 'tOut .3s ease forwards';
                 setTimeout(() => t.remove(), 300);
-            }, 3200);
+            }, 300);
         }
-
-        /* ── INIT ──────────────────────────────────── */
-
-        initSlider();
     </script>
 
     @stack('scripts')

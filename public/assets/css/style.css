@@ -72,6 +72,11 @@
             display: block
         }
 
+        .img-logo{
+            width: 'auto';
+            height: 60px;
+        }
+
         /* ── PROMO BAR ─────────────────── */
         .promo-bar {
             background: var(--blue);
@@ -320,7 +325,7 @@
         .hero-slider {
             position: relative;
             overflow: hidden;
-            background: #0a1628;
+            background: linear-gradient(-120deg,#58f75a -15%,var(--blue) 60%);
             max-height: 400px
         }
 
@@ -364,7 +369,7 @@
             font-weight: 700;
             letter-spacing: .1em;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, .7);
+            color: rgba(255, 255, 255, 1);
             margin-bottom: .5rem
         }
 
@@ -377,7 +382,7 @@
 
         .slide-title em {
             font-style: normal;
-            color: #7eb8ff
+            color: #deedff
         }
 
         .slide-sub {
@@ -391,6 +396,11 @@
             display: flex;
             gap: .6rem;
             flex-wrap: wrap
+        }
+
+        .img-slider {
+            width: auto;
+            height: 350px;
         }
 
         .btn-slide-primary {
@@ -638,7 +648,7 @@
         .promo-card-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, .72) 0%, rgba(0, 0, 0, .1) 60%)
+            background:linear-gradient(135deg,#58f75a -90%,var(--blue) 60%)
         }
 
         .promo-card-body {
@@ -653,7 +663,7 @@
             font-weight: 700;
             letter-spacing: .1em;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, .7);
+            color: rgba(255, 255, 255, .9);
             margin-bottom: .3rem
         }
 
@@ -666,7 +676,7 @@
 
         .promo-card-sub {
             font-size: .78rem;
-            color: rgba(255, 255, 255, .8);
+            color: rgba(255, 255, 255, .9);
             margin-bottom: .85rem
         }
 
@@ -770,10 +780,20 @@
         }
 
         /* ── PRODUCT CARDS ─────────────── */
-        .prod-grid {
+       .prod-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem
+            /* Default untuk HP: 2 kolom */
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 10px;
+            padding: 10px;
+        }
+
+        /* Untuk Tablet ke atas (layar > 768px): 3 atau 4 kolom */
+        @media (min-width: 768px) {
+            .prod-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+            }
         }
 
         .prod-card {
@@ -921,6 +941,25 @@
 
         .status{
             border-radius: var(--r)  !important;
+        }
+
+        .btn-view {
+            background: var(--gray-6);
+            color: #fff;
+            border: none;
+            border-radius: var(--r);
+            padding: 7px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: all .18s;
+            display: flex;
+            align-items: center;
+            gap: 4px
+        }
+
+        .btn-view:hover {
+            background: var(--gray-b);
+            transform: scale(1.04)
         }
 
         .btn-add {
@@ -1212,24 +1251,39 @@
         /* ── PARTNER LOGOS ─────────────── */
         .partner-row {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap; /* Agar otomatis turun ke bawah jika layar sempit */
             justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            padding: 1.5rem 1.5rem
+            align-items: center;
+            gap: 20px; /* Jarak antar logo */
+            padding: 20px;
         }
 
         .partner-logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--gray-b);
-            letter-spacing: .05em;
-            transition: color .2s;
-            cursor: pointer
+            width: 120px;      /* Lebar area logo */
+            height: 60px;      /* Tinggi area logo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .partner-logo:hover {
             color: var(--blue)
+        }
+
+        .partner-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Kunci agar logo tidak gepeng */
+            /* filter: grayscale(100%);  */
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        /* Efek saat kursor diarahkan ke logo */
+        .partner-logo img:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.1);
         }
 
         /* ── FOOTER ────────────────────── */
