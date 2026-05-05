@@ -176,18 +176,55 @@
     }
 
     /* ── CART ──────────────────────────────────── */
-    function addById(id) {
-        const p = PRODUCTS.find(x => x.id === id);
+    // function addById(id) {
+    //     const p = PRODUCTS.find(x => x.id === id);
+    //     if (!p) return;
+    //     const ex = cart.find(x => x.id === id);
+    //     if (ex) ex.qty++;
+    //     else cart.push({
+    //         ...p,
+    //         qty: 1
+    //     });
+    //     updateBadges();
+    //     animateAddBtn(id);
+    //     toast('✅ ' + p.nm + ' ditambahkan ke keranjang!');
+    // }
+
+    async function addById(id) {
+        const p = PRODUCTS_IT.find(x => x.id === id);
         if (!p) return;
-        const ex = cart.find(x => x.id === id);
-        if (ex) ex.qty++;
-        else cart.push({
-            ...p,
-            qty: 1
-        });
-        updateBadges();
-        animateAddBtn(id);
-        toast('✅ ' + p.nm + ' ditambahkan ke keranjang!');
+
+        try {
+            const res = await fetch("{{ route('cart.add') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    product_id: id,
+                    qty: 1
+                })
+            });
+
+            const result = await res.json();
+
+            if (result.success) {
+                updateBadges(result.total_qty); // ambil dari backend
+                animateAddBtn(id);
+                toast('✅ ' + p.nm + ' ditambahkan ke keranjang!');
+            }
+
+        } catch (err) {
+            console.error("Gagal tambah ke cart:", err);
+        }
+    }
+
+    async function loadCart() {
+        const res = await fetch("{{ route('cart.get') }}");
+        const data = await res.json();
+        // console.log(data);
+        updateBadges(data.total_qty);
     }
 
     function animateAddBtn(id) {
@@ -201,11 +238,11 @@
         }, 1400);
     }
 
-    function updateBadges() {
-        const n = cart.reduce((s, x) => s + x.qty, 0);
-        document.getElementById('cBadge').textContent = n;
+    function updateBadges(qty) {
+        // const n = cart.reduce((s, x) => s + x.qty, 0);
+        document.getElementById('cBadge').textContent = qty;
         const m = document.getElementById('cBadgeMob');
-        if (m) m.textContent = n;
+        if (m) m.textContent = qty;
     }
 
     function openCart() {
@@ -221,55 +258,227 @@
         document.body.style.overflow = '';
     }
 
-    function renderDrawer() {
+    async function getCart() {
+        const res = await fetch("{{ route('cart.get') }}");
+        return await res.json();
+    }
+    async function renderDrawer() {
         const body = document.getElementById('drwBody');
         const ft = document.getElementById('drwFt');
-        document.getElementById('drwCount').textContent = cart.reduce((s, x) => s + x.qty, 0);
-        if (!cart.length) {
-            body.innerHTML = '<div class="drw-empty"><i class="ti ti-shopping-cart-off"></i><br>Keranjang masih kosong<br><small style="font-size:.78rem">Tambahkan produk untuk mulai belanja</small></div>';
-            ft.style.display = 'none';
-            return;
-        }
-        body.innerHTML = cart.map(x => `
+
+        try {
+            const data = await getCart();
+            const cart = Object.values(data.cart); // dari session (object → array)
+
+            document.getElementById('drwCount').textContent = data.total_qty;
+
+            if (!cart.length) {
+                body.innerHTML = `
+                <div class="drw-empty">
+                    <i class="ti ti-shopping-cart-off"></i><br>
+                    Keranjang masih kosong<br>
+                    <small style="font-size:.78rem">Tambahkan produk untuk mulai belanja</small>
+                </div>`;
+                ft.style.display = 'none';
+                return;
+            }
+
+            body.innerHTML = cart.map(x => `
             <div class="ci">
-            <div class="ci-img">${x.ic}</div>
-            <div class="ci-inf">
-                <div class="ci-nm">${x.nm}</div>
-                <div class="ci-pr">Rp ${(x.pr*x.qty).toLocaleString('id-ID')}</div>
-                <div class="ci-qty">
-                <button class="qb" onclick="chQty(${x.id},-1)"><i class="ti ti-minus" style="font-size:.7rem"></i></button>
-                <span class="qn">${x.qty}</span>
-                <button class="qb" onclick="chQty(${x.id},1)"><i class="ti ti-plus" style="font-size:.7rem"></i></button>
+                <div class="ci-img">
+                    ${x.image 
+                        ? `<img src="{{ asset('assets/images/products') }}/${x.image}" style="width:50px">`
+                        : '📦'
+                    }
                 </div>
+                <div class="ci-inf">
+                    <div class="ci-nm">${x.name}</div>
+                    <div class="ci-pr">Rp ${(x.price * x.qty).toLocaleString('id-ID')}</div>
+                    <div class="ci-qty">
+                        <button class="qb" onclick="chQty(${x.id},-1)">-</button>
+                        <span class="qn">${x.qty}</span>
+                        <button class="qb" onclick="chQty(${x.id},1)">+</button>
+                    </div>
+                </div>
+                <button class="ci-rm" onclick="rmItem(${x.id})">🗑️</button>
             </div>
-            <button class="ci-rm" onclick="rmItem(${x.id})"><i class="ti ti-trash"></i></button>
-            </div>`).join('');
-        const sub = cart.reduce((s, x) => s + x.pr * x.qty, 0);
-        const tax = Math.round(sub * .11);
-        const tot = sub + 25000 + tax;
-        document.getElementById('drwSub').textContent = 'Rp ' + sub.toLocaleString('id-ID');
-        document.getElementById('drwTax').textContent = 'Rp ' + tax.toLocaleString('id-ID');
-        document.getElementById('drwTot').textContent = 'Rp ' + tot.toLocaleString('id-ID');
-        ft.style.display = 'block';
+        `).join('');
+
+            const sub = cart.reduce((s, x) => s + x.price * x.qty, 0);
+            const tax = Math.round(sub * 0.11);
+            const tot = sub + 25000 + tax;
+
+            document.getElementById('drwSub').textContent = 'Rp ' + sub.toLocaleString('id-ID');
+            document.getElementById('drwTax').textContent = 'Rp ' + tax.toLocaleString('id-ID');
+            document.getElementById('drwTot').textContent = 'Rp ' + tot.toLocaleString('id-ID');
+
+            ft.style.display = 'block';
+
+        } catch (err) {
+            console.error("Gagal render drawer:", err);
+        }
+    }
+    // function renderDrawer() {
+    //     const body = document.getElementById('drwBody');
+    //     const ft = document.getElementById('drwFt');
+    //     document.getElementById('drwCount').textContent = cart.reduce((s, x) => s + x.qty, 0);
+    //     if (!cart.length) {
+    //         body.innerHTML = '<div class="drw-empty"><i class="ti ti-shopping-cart-off"></i><br>Keranjang masih kosong<br><small style="font-size:.78rem">Tambahkan produk untuk mulai belanja</small></div>';
+    //         ft.style.display = 'none';
+    //         return;
+    //     }
+    //     body.innerHTML = cart.map(x => `
+    //         <div class="ci">
+    //         <div class="ci-img">${x.ic}</div>
+    //         <div class="ci-inf">
+    //             <div class="ci-nm">${x.nm}</div>
+    //             <div class="ci-pr">Rp ${(x.pr*x.qty).toLocaleString('id-ID')}</div>
+    //             <div class="ci-qty">
+    //             <button class="qb" onclick="chQty(${x.id},-1)"><i class="ti ti-minus" style="font-size:.7rem"></i></button>
+    //             <span class="qn">${x.qty}</span>
+    //             <button class="qb" onclick="chQty(${x.id},1)"><i class="ti ti-plus" style="font-size:.7rem"></i></button>
+    //             </div>
+    //         </div>
+    //         <button class="ci-rm" onclick="rmItem(${x.id})"><i class="ti ti-trash"></i></button>
+    //         </div>`).join('');
+    //     const sub = cart.reduce((s, x) => s + x.pr * x.qty, 0);
+    //     const tax = Math.round(sub * .11);
+    //     const tot = sub + 25000 + tax;
+    //     document.getElementById('drwSub').textContent = 'Rp ' + sub.toLocaleString('id-ID');
+    //     document.getElementById('drwTax').textContent = 'Rp ' + tax.toLocaleString('id-ID');
+    //     document.getElementById('drwTot').textContent = 'Rp ' + tot.toLocaleString('id-ID');
+    //     ft.style.display = 'block';
+    // }
+
+    // function chQty(id, d) {
+    //     const item = cart.find(x => x.id === id);
+    //     if (!item) return;
+    //     item.qty += d;
+    //     if (item.qty <= 0) cart = cart.filter(x => x.id !== id);
+    //     updateBadges();
+    //     renderDrawer();
+    // }
+
+    async function chQty(id, delta) {
+        await fetch("{{ route('cart.update') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({
+                product_id: id,
+                qty: delta
+            })
+        });
+
+        renderDrawer(); // reload dari server
     }
 
-    function chQty(id, d) {
-        const item = cart.find(x => x.id === id);
-        if (!item) return;
-        item.qty += d;
-        if (item.qty <= 0) cart = cart.filter(x => x.id !== id);
-        updateBadges();
+    async function rmItem(id) {
+        await fetch("{{ route('cart.update') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({
+                product_id: id,
+                qty: -999 // hack: hapus
+            })
+        });
+        loadCart()
         renderDrawer();
     }
 
-    function rmItem(id) {
-        cart = cart.filter(x => x.id !== id);
-        updateBadges();
-        renderDrawer();
-    }
+    // function rmItem(id) {
+    //     cart = cart.filter(x => x.id !== id);
+    //     updateBadges();
+    //     renderDrawer();
+    // }
 
     function showDetail(id) {
         $("#modal-product").modal("show")
+        $.ajax({
+            url: "{{ route('home.product-json-detail') }}",
+            method: "GET",
+            data: {
+                id: id
+            },
+            success: function(res) {
+                var product = res.product;
+                var images = res.images;
+                // =========================
+                // 🔥 HANDLE IMAGES
+                // =========================
+                let images_list = '';
+                if (images && images.length > 0) {
+                    $.each(images, function(index, item) {
+                        $("#main-product-img").attr("src", `{{ asset('assets/images/products/') }}/${images[0].name}`)
+                        images_list += `
+                        <div class="col-4">
+                            <div class="img-thumbnail-wrapper cursor-pointer ${index === 0 ? 'active' : ''}" 
+                                onclick="changeImage(this, '/assets/images/products/${item.name}')">
+                                <img src="/assets/images/products/${item.name}" class="img-fluid rounded">
+                            </div>
+                        </div>`;
+                    });
+                    $("#product_images_slider").html(images_list);
+                } else {
+                    $("#main-product-img").attr("src", `{{ asset('assets/images/products/') }}/no-image-available.png`)
+                    $("#product_images_slider").html(`<div class="text-muted text-center"></div>`);
+                }
+
+                // =========================
+                // 🔥 HANDLE PRODUCT
+                // =========================
+                if (product) {
+                    let item = product;
+                    // 🔥 SPEC (SUDAH ARRAY DARI BACKEND)
+                    let spec = item.spesification || [];
+                    let spec_html = '';
+                    spec.forEach(s => {
+                        spec_html += `<li class="d-flex align-items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M5 12l5 5l10 -10" />
+                                </svg>
+                                ${s}
+                            </li>`;
+                    });
+                    $("#product-spec").html(spec_html);
+                    let discount = item.discount ?? 0;
+                    let price = item.price || 0;
+                    let finalPrice = price;
+                    if (discount > 0) {
+                        finalPrice = price - (price * discount / 100);
+                    }
+                    // 🔥 FORMAT RUPIAH
+                    function formatRupiah(angka) {
+                        return new Intl.NumberFormat('id-ID').format(angka);
+                    }
+                    $("#product-title").html(`<small class="text-muted text-uppercase">${item.category}</small><h1 class="h1 fw-bold mt-1">${item.name}</h1>`);
+                    $("#product-price").html(`Rp ${formatRupiah(price)}`);
+                    $("#product-deskripsi").html(item.description);
+                    if (discount > 0) {
+                        $("#product-discount").html(`-${discount}%`);
+                        $("#product-price-discount").html(`Rp ${formatRupiah(finalPrice)}`);
+                    } else {
+                        $("#product-discount").html("");
+                        $("#product-price-discount").html(`Rp ${formatRupiah(price)}`);
+                    }
+                } else {
+                    $("#product-title").html(`<h1>Produk tidak ditemukan</h1>`);
+                    $("#product-price").html("Rp 0");
+                    $("#product-deskripsi").html("-");
+                    $("#product-discount").html("");
+                    $("#product-price-discount").html("");
+                    $("#product-spec").html("");
+                }
+            }
+        })
     }
+
+    loadCart()
 </script>
 @endpush

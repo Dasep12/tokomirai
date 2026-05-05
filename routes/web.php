@@ -28,4 +28,9 @@ Route::get('/clear-cache', function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/product-json', [HomeController::class, 'productJson'])->name('home.product-json');
-Route::get('/product-json-detail', [HomeController::class, 'productJsonDetail'])->name('home.product-json-detail');
+// Route::get('/product-json-detail', [HomeController::class, 'productJsonDetail'])->name('home.product-json-detail');
+Route::get('/product-json-detail', [HomeController::class, 'productListJsonDetail'])->name('home.product-json-detail');
+
+Route::post('/cart/add', [HomeController::class, 'add'])->name('cart.add');
+Route::get('/cart', [HomeController::class, 'get'])->name('cart.get');
+Route::post('/cart/update', [HomeController::class, 'update'])->name('cart.update');

@@ -58,27 +58,17 @@
                         <div class="card shadow-none border-0 bg-light p-3 text-center rounded-3">
                             <!-- Gambar Utama -->
                             <div class="mb-3 overflow-hidden" style="height: 300px; display: flex; align-items: center; justify-content: center;">
-                                <img id="main-product-img" src="https://www.footstepfootwear.com/wp-content/uploads/2024/07/classic-bw-4-1024x1024.jpeg"
+                                <img id="main-product-img" src="{{ asset('assets/images/products/no-image-available.png') }}"
                                     class="img-fluid rounded-3" alt="Product Image" style="transition: all 0.3s ease;">
                             </div>
 
                             <!-- Thumbnail Slider (Variations) -->
-                            <div class="row g-2 mt-2">
-                                <div class="col-4">
+                            <div class="row g-2 mt-2" id="product_images_slider">
+                                <!-- <div class="col-4">
                                     <div class="img-thumbnail-wrapper cursor-pointer active" onclick="changeImage(this, 'https://www.footstepfootwear.com/wp-content/uploads/2024/07/classic-bw-4-1024x1024.jpeg')">
                                         <img src="https://www.footstepfootwear.com/wp-content/uploads/2024/07/classic-bw-4-1024x1024.jpeg" class="img-fluid rounded">
                                     </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="img-thumbnail-wrapper cursor-pointer" onclick="changeImage(this, 'https://www.footstepfootwear.com/wp-content/uploads/2024/07/classic-bw-2-1024x1024.jpeg')">
-                                        <img src="https://www.footstepfootwear.com/wp-content/uploads/2024/07/classic-bw-2-1024x1024.jpeg" class="img-fluid rounded">
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="img-thumbnail-wrapper cursor-pointer" onclick="changeImage(this, 'https://www.footstepfootwear.com/wp-content/uploads/2024/07/classic-bw-7-1024x1024.jpeg')">
-                                        <img src="https://www.footstepfootwear.com/wp-content/uploads/2024/07/classic-bw-7-1024x1024.jpeg" class="img-fluid rounded">
-                                    </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -86,7 +76,7 @@
                     <!-- Sisi Kanan: Detail -->
                     <div class="col-md-7">
                         <div class="d-flex align-items-start justify-content-between mb-2">
-                            <div>
+                            <div id="product-title">
                                 <small class="text-muted text-uppercase tracking-wider">Electronics / Laptop</small>
                                 <h1 class="h1 fw-bold mt-1">HP Pavillion 2026</h1>
                             </div>
@@ -100,40 +90,20 @@
 
                         <!-- Price Section -->
                         <div class="d-flex align-items-center gap-2 mb-3">
-                            <span class="h2 text-primary fw-bold mb-0">Rp 12.999.000</span>
-                            <span class="badge bg-danger-lt text-danger fw-bold">-10%</span>
-                            <span class="text-muted text-decoration-line-through">Rp 13.699.000</span>
+                            <span id="product-price" class="h2 text-primary fw-bold mb-0"></span>
+                            <span id="product-discount" class="badge bg-danger-lt text-danger fw-bold"> </span>
+                            <span id="product-price-discount" class="text-muted text-decoration-line-through"></span>
                         </div>
 
                         <div class="hr-text hr-text-left">Spesifikasi</div>
 
-                        <ul class="list-unstyled space-y-1 mb-3">
-                            <li class="d-flex align-items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M5 12l5 5l10 -10" />
-                                </svg>
-                                Intel Core i7-1260P (12th Gen)
-                            </li>
-                            <li class="d-flex align-items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M5 12l5 5l10 -10" />
-                                </svg>
-                                RAM 16GB DDR4 / SSD 512GB NVMe
-                            </li>
-                            <li class="d-flex align-items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M5 12l5 5l10 -10" />
-                                </svg>
-                                NVIDIA GeForce RTX 3050 4GB
-                            </li>
+                        <ul class="list-unstyled space-y-1 mb-3" id="product-spec">
+
                         </ul>
 
                         <div class="hr-text hr-text-left">Deskripsi</div>
-                        <p class="text-muted small mb-4">
-                            HP Pavilion 2026 hadir dengan desain tipis dan elegan yang cocok untuk produktivitas sehari-hari maupun hiburan. Didukung prosesor generasi terbaru untuk multitasking berat.
+                        <p class="text-muted small mb-4" id="product-deskripsi">
+
                         </p>
 
                         <!-- CTA -->
