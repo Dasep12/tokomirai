@@ -220,12 +220,7 @@
         }
     }
 
-    async function loadCart() {
-        const res = await fetch("{{ route('cart.get') }}");
-        const data = await res.json();
-        // console.log(data);
-        updateBadges(data.total_qty);
-    }
+
 
     function animateAddBtn(id) {
         const b = document.getElementById('ba' + id);
@@ -238,86 +233,7 @@
         }, 1400);
     }
 
-    function updateBadges(qty) {
-        // const n = cart.reduce((s, x) => s + x.qty, 0);
-        document.getElementById('cBadge').textContent = qty;
-        const m = document.getElementById('cBadgeMob');
-        if (m) m.textContent = qty;
-    }
 
-    function openCart() {
-        document.getElementById('ov').classList.add('on');
-        document.getElementById('drw').classList.add('on');
-        renderDrawer();
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeCart() {
-        document.getElementById('ov').classList.remove('on');
-        document.getElementById('drw').classList.remove('on');
-        document.body.style.overflow = '';
-    }
-
-    async function getCart() {
-        const res = await fetch("{{ route('cart.get') }}");
-        return await res.json();
-    }
-    async function renderDrawer() {
-        const body = document.getElementById('drwBody');
-        const ft = document.getElementById('drwFt');
-
-        try {
-            const data = await getCart();
-            const cart = Object.values(data.cart); // dari session (object → array)
-
-            document.getElementById('drwCount').textContent = data.total_qty;
-
-            if (!cart.length) {
-                body.innerHTML = `
-                <div class="drw-empty">
-                    <i class="ti ti-shopping-cart-off"></i><br>
-                    Keranjang masih kosong<br>
-                    <small style="font-size:.78rem">Tambahkan produk untuk mulai belanja</small>
-                </div>`;
-                ft.style.display = 'none';
-                return;
-            }
-
-            body.innerHTML = cart.map(x => `
-            <div class="ci">
-                <div class="ci-img">
-                    ${x.image 
-                        ? `<img src="{{ asset('assets/images/products') }}/${x.image}" style="width:50px">`
-                        : '📦'
-                    }
-                </div>
-                <div class="ci-inf">
-                    <div class="ci-nm">${x.name}</div>
-                    <div class="ci-pr">Rp ${(x.price * x.qty).toLocaleString('id-ID')}</div>
-                    <div class="ci-qty">
-                        <button class="qb" onclick="chQty(${x.id},-1)">-</button>
-                        <span class="qn">${x.qty}</span>
-                        <button class="qb" onclick="chQty(${x.id},1)">+</button>
-                    </div>
-                </div>
-                <button class="ci-rm" onclick="rmItem(${x.id})">🗑️</button>
-            </div>
-        `).join('');
-
-            const sub = cart.reduce((s, x) => s + x.price * x.qty, 0);
-            const tax = Math.round(sub * 0.11);
-            const tot = sub + 25000 + tax;
-
-            document.getElementById('drwSub').textContent = 'Rp ' + sub.toLocaleString('id-ID');
-            document.getElementById('drwTax').textContent = 'Rp ' + tax.toLocaleString('id-ID');
-            document.getElementById('drwTot').textContent = 'Rp ' + tot.toLocaleString('id-ID');
-
-            ft.style.display = 'block';
-
-        } catch (err) {
-            console.error("Gagal render drawer:", err);
-        }
-    }
     // function renderDrawer() {
     //     const body = document.getElementById('drwBody');
     //     const ft = document.getElementById('drwFt');
@@ -359,37 +275,7 @@
     //     renderDrawer();
     // }
 
-    async function chQty(id, delta) {
-        await fetch("{{ route('cart.update') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-            },
-            body: JSON.stringify({
-                product_id: id,
-                qty: delta
-            })
-        });
 
-        renderDrawer(); // reload dari server
-    }
-
-    async function rmItem(id) {
-        await fetch("{{ route('cart.update') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-            },
-            body: JSON.stringify({
-                product_id: id,
-                qty: -999 // hack: hapus
-            })
-        });
-        loadCart()
-        renderDrawer();
-    }
 
     // function rmItem(id) {
     //     cart = cart.filter(x => x.id !== id);
@@ -479,6 +365,6 @@
         })
     }
 
-    loadCart()
+    // loadCart()
 </script>
 @endpush

@@ -9,7 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}?<?= date('ymdhis')  ?> ">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}?<?= date('ymdhis') ?>">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -84,260 +85,16 @@
     <script>
         /* ── DATA ──────────────────────────────────── */
         const PRODUCTS = [{
-                id: 1,
-                nm: 'Lenovo ThinkPad X1 Carbon Gen 11',
-                sp: 'Intel Core i7-1365U, 16GB LPDDR5, 512GB NVMe, 14" IPS 2.8K',
-                pr: 18500000,
-                cat: 'laptop',
-                ic: '💻',
-                badge: 'hot',
-                rating: 4.8,
-                sold: 342
-            },
-            {
-                id: 2,
-                nm: 'HP ProBook 450 G9',
-                sp: 'Intel Core i5-1235U, 8GB DDR4, 256GB SSD, 15.6" FHD',
-                pr: 9750000,
-                cat: 'laptop',
-                ic: '💻',
-                rating: 4.6,
-                sold: 218
-            },
-            {
-                id: 3,
-                nm: 'Dell Inspiron 15 3000',
-                sp: 'AMD Ryzen 5 5625U, 8GB, 512GB SSD, 15.6" FHD',
-                pr: 8200000,
-                cat: 'laptop',
-                ic: '💻',
-                badge: 'sale',
-                op: 9500000,
-                rating: 4.5,
-                sold: 189
-            },
-            {
-                id: 4,
-                nm: 'ASUS VivoBook Pro 16X OLED',
-                sp: 'Intel Core i7-13700H, 16GB, 1TB NVMe, 16" 3.2K OLED',
-                pr: 14900000,
-                cat: 'laptop',
-                ic: '💻',
-                badge: 'new',
-                rating: 4.9,
-                sold: 96
-            },
-            {
-                id: 5,
-                nm: 'Cisco Router RV340',
-                sp: 'Dual WAN Gigabit, 4-Port LAN, SSL VPN, Firewall',
-                pr: 3200000,
-                cat: 'networking',
-                ic: '📡',
-                rating: 4.7,
-                sold: 134
-            },
-            {
-                id: 6,
-                nm: 'Ubiquiti UniFi AP AC Pro',
-                sp: '802.11ac Wave 2, Dual-Band 5GHz/2.4GHz, PoE+',
-                pr: 1850000,
-                cat: 'networking',
-                ic: '📡',
-                badge: 'hot',
-                rating: 4.8,
-                sold: 412
-            },
-            {
-                id: 7,
-                nm: 'TP-Link TL-SG1024 Switch',
-                sp: '24-Port Gigabit Desktop Switch, Unmanaged, Plug & Play',
-                pr: 1200000,
-                cat: 'networking',
-                ic: '🔌',
-                rating: 4.6,
-                sold: 267
-            },
-            {
-                id: 8,
-                nm: 'MikroTik hEX S RB760iGS',
-                sp: 'Gigabit Router, 1x SFP, RouterOS L4, USB Port',
-                pr: 890000,
-                cat: 'networking',
-                ic: '📡',
-                badge: 'new',
-                rating: 4.7,
-                sold: 178
-            },
-            {
-                id: 9,
-                nm: 'WD Blue 4TB HDD Desktop',
-                sp: '3.5", 5400 RPM, SATA III 6Gb/s, 256MB Cache',
-                pr: 1450000,
-                cat: 'storage',
-                ic: '💾',
-                rating: 4.5,
-                sold: 321
-            },
-            {
-                id: 10,
-                nm: 'Samsung 970 EVO Plus 1TB',
-                sp: 'M.2 NVMe PCIe, 3500MB/s Read, 3300MB/s Write',
-                pr: 1750000,
-                cat: 'storage',
-                ic: '💿',
-                badge: 'hot',
-                rating: 4.9,
-                sold: 509
-            },
-            {
-                id: 11,
-                nm: 'Seagate IronWolf NAS 8TB',
-                sp: 'NAS-Optimized, 7200 RPM, AgileArray Technology',
-                pr: 2900000,
-                cat: 'storage',
-                ic: '💾',
-                rating: 4.7,
-                sold: 145
-            },
-            {
-                id: 12,
-                nm: 'Kingston A400 SSD 512GB',
-                sp: 'SATA III 2.5", 500MB/s Read, 320MB/s Write',
-                pr: 680000,
-                cat: 'storage',
-                ic: '💿',
-                badge: 'sale',
-                op: 850000,
-                rating: 4.6,
-                sold: 672
-            },
-            {
-                id: 13,
-                nm: 'Logitech MX Master 3S',
-                sp: '8000 DPI, Bluetooth + USB-C, Multi-Device, Quiet Click',
-                pr: 1350000,
-                cat: 'aksesoris',
-                ic: '🖱️',
-                rating: 4.8,
-                sold: 289
-            },
-            {
-                id: 14,
-                nm: 'Corsair K70 RGB MK.2',
-                sp: 'Cherry MX Red, Per-Key RGB Backlit, Brushed Aluminum',
-                pr: 1900000,
-                cat: 'aksesoris',
-                ic: '⌨️',
-                badge: 'hot',
-                rating: 4.7,
-                sold: 198
-            },
-            {
-                id: 15,
-                nm: 'Logitech C920 HD Pro Webcam',
-                sp: '1080p/30fps, 720p/60fps, Autofocus, Dual Mic Stereo',
-                pr: 985000,
-                cat: 'aksesoris',
-                ic: '📷',
-                rating: 4.7,
-                sold: 354
-            },
-            {
-                id: 16,
-                nm: 'Baseus 10-in-1 USB-C Hub',
-                sp: '4K HDMI, 3x USB 3.0, SD/TF, 100W PD, RJ45 Gigabit',
-                pr: 550000,
-                cat: 'aksesoris',
-                ic: '🔌',
-                badge: 'new',
-                rating: 4.6,
-                sold: 423
-            },
-            {
-                id: 17,
-                nm: 'LG 27UK850-W 4K Monitor',
-                sp: '27" UHD IPS, 60Hz, USB-C 60W, HDR400, AMD FreeSync',
-                pr: 5800000,
-                cat: 'monitor',
-                ic: '🖥️',
-                rating: 4.8,
-                sold: 87
-            },
-            {
-                id: 18,
-                nm: 'ASUS ProArt PA329CRV 32"',
-                sp: '4K OLED, 120Hz, USB-C 90W, Delta E<1, Pantone Validated',
-                pr: 12500000,
-                cat: 'monitor',
-                ic: '🖥️',
-                badge: 'new',
-                rating: 4.9,
-                sold: 34
-            },
-            {
-                id: 19,
-                nm: 'BenQ GW2480 24" FHD IPS',
-                sp: '1920x1080, 75Hz, IPS, Eye-care, HDMI+VGA+DisplayPort',
-                pr: 2100000,
-                cat: 'monitor',
-                ic: '🖥️',
-                rating: 4.6,
-                sold: 213
-            },
-            {
-                id: 20,
-                nm: 'Dell PowerEdge T40 Server',
-                sp: 'Intel Xeon E-2224, 8GB ECC DDR4, 1TB SATA, Windows Server',
-                pr: 16500000,
-                cat: 'server',
-                ic: '🗄️',
-                rating: 4.7,
-                sold: 28
-            },
-            {
-                id: 21,
-                nm: 'Synology NAS DS923+',
-                sp: '4-Bay NAS, AMD Ryzen R1600, 4GB ECC DDR4, 2x M.2 NVMe',
-                pr: 8900000,
-                cat: 'server',
-                ic: '🗄️',
-                badge: 'hot',
-                rating: 4.9,
-                sold: 67
-            },
-            {
-                id: 22,
-                nm: 'APC Smart-UPS 1500VA LCD',
-                sp: '1500VA/1000W, 230V, 8 Outlet, USB, LCD Display, AVR',
-                pr: 3200000,
-                cat: 'server',
-                ic: '🔋',
-                rating: 4.8,
-                sold: 142
-            },
-            {
-                id: 23,
-                nm: 'Hikvision DS-2CD1143G2-I',
-                sp: '4MP AcuSense EXIR, H.265+, WDR, IP67, PoE, 2.8mm',
-                pr: 750000,
-                cat: 'security',
-                ic: '📷',
-                rating: 4.6,
-                sold: 287
-            },
-            {
-                id: 24,
-                nm: 'ZKTeco K40 Fingerprint',
-                sp: '1000 Users, 100.000 Records, TCP/IP, USB Flash Drive, Wiegand',
-                pr: 1200000,
-                cat: 'security',
-                ic: '🔐',
-                badge: 'new',
-                rating: 4.7,
-                sold: 156
-            },
-        ];
+            id: 1,
+            nm: 'Lenovo ThinkPad X1 Carbon Gen 11',
+            sp: 'Intel Core i7-1365U, 16GB LPDDR5, 512GB NVMe, 14" IPS 2.8K',
+            pr: 18500000,
+            cat: 'laptop',
+            ic: '💻',
+            badge: 'hot',
+            rating: 4.8,
+            sold: 342
+        }];
 
         const SERVICES = [{
                 ic: 'ti-device-desktop',
@@ -404,154 +161,25 @@
 
         /* ── CHECKOUT ──────────────────────────────── */
         function goCheckout() {
-            if (!cart.length) {
-                toast('Keranjang kosong!', 'err');
+            // if (!cart.length) {
+            //     toast('Keranjang kosong!', 'err');
+            //     return;
+            // }
+            // closeCart();
+            // showPg('pgCheckout');
+            // coStep = 1;
+            // renderCoOrder();
+            // showCoStep(1);
+            // window.scrollTo(0, 0);
+            var validated = "{{ Auth::check() ? true : false }}";
+            if (!validated) {
+                alert('Silakan login terlebih dahulu untuk lanjut checkout.');
                 return;
             }
-            closeCart();
-            showPg('pgCheckout');
-            coStep = 1;
-            renderCoOrder();
-            showCoStep(1);
-            window.scrollTo(0, 0);
+            window.location.href = "{{ route('cart.checkout') }}";
         }
 
-        function renderCoOrder() {
-            document.getElementById('coOrderItems').innerHTML = cart.map(x => `
-            <div class="oi-row">
-            <div class="oi-img">${x.ic}</div>
-            <div class="oi-nm">${x.nm} <span style="color:var(--gray-b)">×${x.qty}</span></div>
-            <div class="oi-pr">Rp ${(x.pr*x.qty).toLocaleString('id-ID')}</div>
-            </div>`).join('');
-            const sub = cart.reduce((s, x) => s + x.pr * x.qty, 0);
-            const tax = Math.round(sub * .11);
-            document.getElementById('coSub').textContent = 'Rp ' + sub.toLocaleString('id-ID');
-            document.getElementById('coTax').textContent = 'Rp ' + tax.toLocaleString('id-ID');
-            document.getElementById('coTot').textContent = 'Rp ' + (sub + 25000 + tax).toLocaleString('id-ID');
-        }
 
-        function showCoStep(n) {
-            coStep = n;
-            [1, 2, 3].forEach(i => document.getElementById('coStep' + i).style.display = i === n ? 'block' : 'none');
-            updateCoProgress(n);
-        }
-
-        function updateCoProgress(n) {
-            [1, 2, 3].forEach(i => {
-                const dot = document.getElementById('sdot' + i);
-                const lbl = document.getElementById('slbl' + i);
-                if (i < n) {
-                    dot.className = 'sp-dot done';
-                    dot.innerHTML = '<i class="ti ti-check" style="font-size:.7rem"></i>';
-                    lbl.className = 'sp-label active';
-                } else if (i === n) {
-                    dot.className = 'sp-dot active';
-                    dot.textContent = i;
-                    lbl.className = 'sp-label active';
-                } else {
-                    dot.className = 'sp-dot';
-                    dot.textContent = i;
-                    lbl.className = 'sp-label';
-                }
-                if (i < 3) {
-                    const line = document.getElementById('sline' + i);
-                    line.className = 'sp-line' + (i < n ? ' done' : '');
-                }
-            });
-        }
-
-        function coNext() {
-            if (coStep === 1 && !validateShipping()) return;
-            if (coStep === 2) {
-                buildReview();
-            }
-            showCoStep(coStep + 1);
-            window.scrollTo(0, 0);
-        }
-
-        function coBack(to) {
-            showCoStep(to);
-            window.scrollTo(0, 0);
-        }
-
-        function validateShipping() {
-            const flds = [{
-                id: 'fn',
-                l: 'Nama Lengkap'
-            }, {
-                id: 'fp',
-                l: 'No. Telepon'
-            }, {
-                id: 'fe',
-                l: 'Email'
-            }, {
-                id: 'fa',
-                l: 'Alamat'
-            }, {
-                id: 'fc_city',
-                l: 'Kota'
-            }, {
-                id: 'fz',
-                l: 'Kode Pos'
-            }];
-            for (const f of flds) {
-                const el = document.getElementById(f.id);
-                if (!el || !el.value.trim()) {
-                    toast('⚠️ Harap isi ' + f.l, 'err');
-                    el.focus();
-                    el.style.borderColor = 'var(--red)';
-                    setTimeout(() => el.style.borderColor = '', 2000);
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        function selPay(el) {
-            document.querySelectorAll('.pay-opt').forEach(o => o.classList.remove('sel'));
-            el.classList.add('sel');
-            document.getElementById('ccFields').style.display = el.querySelector('input').value === 'cc' ? 'block' : 'none';
-        }
-
-        function buildReview() {
-            const pay = document.querySelector('.pay-opt.sel .pay-nm')?.textContent || '-';
-            document.getElementById('reviewData').innerHTML = `
-            <div style="display:grid;grid-template-columns:auto 1fr;gap:.2rem .9rem">
-            <span style="color:var(--gray-b)">Penerima</span><strong>${document.getElementById('fn').value}</strong>
-            <span style="color:var(--gray-b)">Telepon</span><span>${document.getElementById('fp').value}</span>
-            <span style="color:var(--gray-b)">Email</span><span>${document.getElementById('fe').value}</span>
-            <span style="color:var(--gray-b)">Alamat</span><span>${document.getElementById('fa').value}, ${document.getElementById('fc_city').value} ${document.getElementById('fz').value}</span>
-            <span style="color:var(--gray-b)">Pengiriman</span><span>${document.getElementById('fship').value}</span>
-            <span style="color:var(--gray-b)">Pembayaran</span><strong style="color:var(--blue)">${pay}</strong>
-            </div>`;
-            document.getElementById('reviewItems').innerHTML = cart.map(x => `
-            <div class="oi-row">
-            <div class="oi-img">${x.ic}</div>
-            <div class="oi-nm">${x.nm} ×${x.qty}</div>
-            <div class="oi-pr">Rp ${(x.pr*x.qty).toLocaleString('id-ID')}</div>
-            </div>`).join('');
-        }
-
-        function placeOrder() {
-            const oid = '#TN-' + Math.floor(100000 + Math.random() * 900000);
-            document.getElementById('succOid').textContent = oid;
-            document.getElementById('succDetail').innerHTML = `
-            <div style="display:grid;grid-template-columns:auto 1fr;gap:.15rem .9rem">
-            <span style="color:var(--gray-b)">Penerima</span><strong>${document.getElementById('fn').value}</strong>
-            <span style="color:var(--gray-b)">Alamat</span><span>${document.getElementById('fa').value}, ${document.getElementById('fc_city').value}</span>
-            <span style="color:var(--gray-b)">Pengiriman</span><span>${document.getElementById('fship').value}</span>
-            <span style="color:var(--gray-b)">Total</span><strong style="color:var(--blue)">${document.getElementById('coTot').textContent}</strong>
-            </div>`;
-            const ld = document.getElementById('ldg');
-            ld.style.display = 'flex';
-            setTimeout(() => {
-                ld.style.display = 'none';
-                cart = [];
-                updateBadges();
-                showPg('pgSuccess');
-                window.scrollTo(0, 0);
-            }, 2000);
-        }
 
         /* ── NAVIGATION ────────────────────────────── */
         function showPg(id) {
@@ -560,9 +188,10 @@
         }
 
         function goHome() {
-            showPg('pgHome');
-            setMobNav('home');
-            window.scrollTo(0, 0);
+            // showPg('pgHome');
+            // setMobNav('home');
+            // window.scrollTo(0, 0);
+            window.location.href = "{{ route('index') }}";
         }
 
         function scrollToProducts() {
@@ -607,6 +236,133 @@
                 setTimeout(() => t.remove(), 300);
             }, 300);
         }
+
+
+        // CART 
+        function updateBadges(qty) {
+            // const n = cart.reduce((s, x) => s + x.qty, 0);
+            document.getElementById('cBadge').textContent = qty;
+            const m = document.getElementById('cBadgeMob');
+            if (m) m.textContent = qty;
+        }
+
+        async function loadCart() {
+            const res = await fetch("{{ route('cart.get') }}");
+            const data = await res.json();
+            // console.log(data);
+            updateBadges(data.total_qty);
+        }
+
+        function openCart() {
+            document.getElementById('ov').classList.add('on');
+            document.getElementById('drw').classList.add('on');
+            renderDrawer();
+            document.body.style.overflow = 'hidden';
+        }
+
+
+
+        function closeCart() {
+            document.getElementById('ov').classList.remove('on');
+            document.getElementById('drw').classList.remove('on');
+            document.body.style.overflow = '';
+        }
+
+        async function getCart() {
+            const res = await fetch("{{ route('cart.get') }}");
+            return await res.json();
+        }
+        async function renderDrawer() {
+            const body = document.getElementById('drwBody');
+            const ft = document.getElementById('drwFt');
+
+            try {
+                const data = await getCart();
+                const cart = Object.values(data.cart); // dari session (object → array)
+
+                document.getElementById('drwCount').textContent = data.total_qty;
+
+                if (!cart.length) {
+                    body.innerHTML = `
+                <div class="drw-empty">
+                    <i class="ti ti-shopping-cart-off"></i><br>
+                    Keranjang masih kosong<br>
+                    <small style="font-size:.78rem">Tambahkan produk untuk mulai belanja</small>
+                </div>`;
+                    ft.style.display = 'none';
+                    return;
+                }
+
+                body.innerHTML = cart.map(x => `
+            <div class="ci">
+                <div class="ci-img">
+                    ${x.image 
+                        ? `<img src="{{ asset('assets/images/products') }}/${x.image}" style="width:50px">`
+                        : '📦'
+                    }
+                </div>
+                <div class="ci-inf">
+                    <div class="ci-nm">${x.name}</div>
+                    <div class="ci-pr">Rp ${(x.price * x.qty).toLocaleString('id-ID')}</div>
+                    <div class="ci-qty">
+                        <button class="qb" onclick="chQty(${x.id},-1)">-</button>
+                        <span class="qn">${x.qty}</span>
+                        <button class="qb" onclick="chQty(${x.id},1)">+</button>
+                    </div>
+                </div>
+                <button class="ci-rm" onclick="rmItem(${x.id})">🗑️</button>
+            </div>
+        `).join('');
+
+                const sub = cart.reduce((s, x) => s + x.price * x.qty, 0);
+                const tax = Math.round(sub * 0.11);
+                const tot = sub + tax;
+
+                document.getElementById('drwSub').textContent = 'Rp ' + sub.toLocaleString('id-ID');
+                document.getElementById('drwTax').textContent = 'Rp ' + tax.toLocaleString('id-ID');
+                document.getElementById('drwTot').textContent = 'Rp ' + tot.toLocaleString('id-ID');
+
+                ft.style.display = 'block';
+
+            } catch (err) {
+                console.error("Gagal render drawer:", err);
+            }
+        }
+
+        async function chQty(id, delta) {
+            await fetch("{{ route('cart.update') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    product_id: id,
+                    qty: delta
+                })
+            });
+
+            renderDrawer(); // reload dari server
+        }
+
+        async function rmItem(id) {
+            await fetch("{{ route('cart.update') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    product_id: id,
+                    qty: -999 // hack: hapus
+                })
+            });
+            loadCart()
+            renderDrawer();
+        }
+
+        loadCart()
+        // END
     </script>
 
     @stack('scripts')

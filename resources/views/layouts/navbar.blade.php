@@ -5,16 +5,26 @@
             <a class="nav-logo" onclick="goHome()">
                 <img class="img-logo" src="{{ asset('assets/images/logo/tokomirai-logo.png') }}" alt="">
             </a>
-            <div class="nav-search">
-                <i class="ti ti-search si"></i>
-                <input type="text" id="dskSearch" placeholder="Cari laptop, router, SSD, dan lainnya..." oninput="doSearch()">
-            </div>
+            <!-- IKA DI HOME ATAU DI INDEX MUNCULKAN -->
+            @if (request()->routeIs('home') || request()->routeIs('index'))
+            @include("layouts.search")
+            @endif
+            <!-- END -->
             <div class="nav-actions">
                 <a class="nav-act-btn" style="text-decoration: none;" href="/"><i class="ti ti-home"></i><span>Beranda</span></a>
-                <!-- <button class="nav-act-btn"><i class="ti ti-heart"></i><span>Wishlist</span></button> -->
-                <!-- <button class="nav-act-btn"><i class="ti ti-user-circle"></i><span>Akun</span></button> -->
+                @if (Auth::check())
+                <a href="{{ route('cart.list-order') }}" class="nav-act-btn"><i class="ti ti-shopping-cart-copy"></i><span>Pesanan Saya</span></a>
+                @endif
+
+                <a href="{{ route('auth.login') }}" class="nav-act-btn"><i class="ti ti-user-circle"></i><span>
+                        @if (Auth::check())
+                        Akun Saya
+                        @else
+                        Login
+                        @endif
+                    </span></a>
                 <button class="nav-act-btn" onclick="openCart()">
-                    <i class="ti ti-shopping-cart"></i>
+                    <i class="ti ti-shopping-cart-down"></i>
                     <span class="cart-badge" id="cBadge">0</span>
                     <span>Keranjang</span>
                 </button>
