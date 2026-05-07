@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\OrderMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -230,6 +230,7 @@ class HomeController extends Controller
             // 🔹 insert transaksi
             $trxId = DB::table('transactions')->insertGetId([
                 'invoice' => $invoice,
+                'user_id' => Auth::id(),
                 'name' => $request->name,
                 'phone' => $request->phone,
                 'email' => $request->email,
@@ -306,6 +307,7 @@ class HomeController extends Controller
     public function ListOrder()
     {
         $transactions = DB::table('transactions')
+            ->where('user_id', Auth::id())
             ->orderBy('id', 'desc')
             ->get();
 
