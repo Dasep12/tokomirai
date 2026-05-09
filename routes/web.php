@@ -79,3 +79,14 @@ Route::get('/api/districts/{id}', function ($id) {
 Route::get('/api/villages/{id}', function ($id) {
     return Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/villages/$id.json")->json();
 });
+
+
+
+// ADMIN ROUTES
+Route::prefix('admin')->group(function () {
+    Route::get('/', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
+    Route::get('/products', [App\Http\Controllers\Admin\ProductController::class, 'products'])->name('admin.products');
+    Route::get('/products/detail', [App\Http\Controllers\Admin\ProductController::class, 'detail'])->name('admin.products.detail');
+    Route::post('/products/crud', [App\Http\Controllers\Admin\ProductController::class, 'crud'])->name('admin.products.crud');
+    Route::get('/products/loadcategory', [App\Http\Controllers\Admin\ProductController::class, 'loadcategory'])->name('admin.products.loadcategory');
+});
