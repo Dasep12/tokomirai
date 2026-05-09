@@ -12,8 +12,14 @@
             <!-- END -->
             <div class="nav-actions">
                 <a class="nav-act-btn" style="text-decoration: none;" href="/"><i class="ti ti-home"></i><span>Beranda</span></a>
+
                 @if (Auth::check())
-                <a href="{{ route('cart.list-order') }}" class="nav-act-btn"><i class="ti ti-shopping-cart-copy"></i><span>Pesanan Saya</span></a>
+
+                @if (Auth::user()->is_admin)
+                <a href="{{ route('admin.home') }}" class="nav-act-btn"><i class="ti ti-building-store"></i><span>Kelola Toko Saya</span></a>
+                @endif
+
+                <a href="{{ route('cart.list-order') }}" class="nav-act-btn"><i class="ti ti-shopping-bag"></i></i><span>Pesanan Saya</span></a>
                 @endif
 
                 <a href="{{ route('auth.login') }}" class="nav-act-btn"><i class="ti ti-user-circle"></i><span>

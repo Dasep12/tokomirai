@@ -20,6 +20,7 @@ class User extends Authenticatable
         'provider',
         'provider_token',
         'status',
+        'is_admin',
         'last_login_at',
         'email_verified_at'
     ];

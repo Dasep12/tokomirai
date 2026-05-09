@@ -159,29 +159,49 @@
         $(this).closest('.input-group').remove();
     });
 
+    // ==============================
+    // GLOBAL FILE STORAGE
+    // ==============================
+
+    let selectedFiles = [];
+
 
     // ==============================
     // IMAGE UPLOAD PREVIEW
     // ==============================
     $('#imageUpload').on('change', function(e) {
-        let files = e.target.files;
-        $.each(files, function(_, file) {
+        let files = Array.from(e.target.files);
+        files.forEach(file => {
+            // simpan ke array global
+            selectedFiles.push(file);
             let reader = new FileReader();
             reader.onload = function(event) {
+                let index = selectedFiles.length - 1;
                 $('#uploadButton').before(`
-                <div class="preview-item">
+                <div class="preview-item" data-index="${index}">
                     <img src="${event.target.result}">
-                    <button type="button" class="remove-image">
+                    <button 
+                        type="button" 
+                        class="remove-image"
+                    >
                         &times;
                     </button>
-                </div>`);
+                </div>
+            `);
             };
             reader.readAsDataURL(file);
         });
+
+        // reset input supaya bisa pilih file lagi
+        $(this).val('');
     });
 
     $(document).on('click', '.remove-image', function() {
-        $(this).closest('.preview-item').remove();
+        let preview = $(this).closest('.preview-item');
+        let index = preview.data('index');
+        // hapus dari array
+        selectedFiles[index] = null;
+        preview.remove();
     });
 
 
@@ -277,6 +297,12 @@
     $('#productForm').on('submit', function(e) {
         e.preventDefault();
         let formData = new FormData(this);
+        // append semua image manual
+        selectedFiles.forEach(file => {
+            if (file !== null) {
+                formData.append('images[]', file);
+            }
+        });
         $.ajax({
             url: `{{ route('admin.products.crud') }}`,
             type: 'POST',
@@ -291,6 +317,7 @@
             success: function(res) {
                 console.log(res);
                 $('#modal-product').modal('hide');
+                selectedFiles = [];
                 // showToast(res.message ?? res, 'success');
                 loadProducts();
             },

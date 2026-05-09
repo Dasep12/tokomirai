@@ -1,0 +1,75 @@
+@extends('layouts.admin')
+
+@section('content')
+<div class="page-header d-print-none">
+    <div class="container-xl">
+        <div class="row g-2 align-items-center">
+            <div class="col">
+                <h2 class="page-title">Master Product</h2>
+                <div class="text-secondary mt-1">Kelola inventaris dan layanan TokoMirai</div>
+            </div>
+            <div class="col-auto ms-auto d-print-none">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-product">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                    Tambah Produk
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-3">
+    <div class="table-responsive">
+        <table class="table table-vcenter card-table table-striped">
+            <thead>
+                <tr>
+                    <th>Produk</th>
+                    <th>Kategori</th>
+                    <th>Harga</th>
+                    <th>Spesifikasi</th>
+                    <th>Status</th>
+                    <th class="w-1"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($products as $item)
+                <tr>
+                    <td>
+                        <div class="d-flex py-1 align-items-center">
+                            <span class="avatar me-2" style="background-image: url({{ $item->images }})"></span>
+                            <div class="flex-fill">
+                                <div class="font-weight-medium">{{ $item->name }}</div>
+                                <div class="text-secondary"><small>{{ $item->sold }} Terjual | ⭐ {{ $item->rating }}</small></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span class="badge badge-outline text-blue">{{ $item->category }}</span></td>
+                    <td>
+                        <div class="text-inherit">Rp {{ number_format($item->price, 0, ',', '.') }}</div>
+                        @if($item->discount > 0)
+                        <div class="text-danger small"><s>Rp {{ number_format($item->price + $item->discount, 0, ',', '.') }}</s></div>
+                        @endif
+                    </td>
+                    <td>
+                        @if(is_array($item->spesification))
+                            @foreach(array_slice($item->spesification, 0, 2) as $spec)
+                                <span class="badge bg-pale-azure text-azure-fg small">{{ $spec }}</span>
+                            @endforeach
+                        @endif
+                    </td>
+                    <td>
+                        <span class="badge bg-{{ $item->badge == 'Hot' ? 'red' : 'green' }}-lt">{{ $item->badge }}</span>
+                    </td>
+                    <td>
+                        <div class="btn-list flex-nowrap">
+                            <a href="#" class="btn btn-white btn-sm">Edit</a>
+                            <button class="btn btn-danger btn-sm">Hapus</button>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endsection
