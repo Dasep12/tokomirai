@@ -1,7 +1,7 @@
 @extends("layouts.main")
 
 @section('content')
-@include("layouts.carts");
+@include("layouts.carts")
 
 <!-- =============================================================== -->
 <!-- PAGE: CHECKOUT -->
@@ -187,7 +187,7 @@
 
 @push("scripts")
 <script>
-    const CART = @json($cart);
+    const CART = @json($cart)
 
     document.addEventListener("DOMContentLoaded", function() {
 

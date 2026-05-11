@@ -18,7 +18,7 @@
                 <td>
                     <div class="d-flex py-1 align-items-center">
                         <span class="avatar me-2"
-                            style="background-image: url({{ asset('images/' . $product->image) }})">
+                            style="background-image: url('{{ asset('assets/images/products/' . $product->images) }}')">
                         </span>
                         <div class="flex-fill">
                             <div class="font-weight-medium text-primary">
@@ -81,7 +81,7 @@
                 </td>
                 <td>
                     <div class="dropdown">
-                        <a href="#" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Download</a>
+                        <a href="#" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</a>
                         <div class="dropdown-menu" style="">
                             <button class="dropdown-item" onclick="CrudProducts('update','{{ $product->id }}')">Edit</button>
                             <button class="dropdown-item" href="#" onclick="CrudProducts('delete','{{ $product->id }}')">Delete</button>

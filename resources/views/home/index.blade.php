@@ -2,8 +2,8 @@
 
 @section('content')
 
-@include("layouts.category-navbar");
-@include("layouts.carts");
+@include("layouts.category-navbar")
+@include("layouts.carts")
 
 
 
@@ -34,4 +34,3 @@
 
 </div><!-- /pgHome -->
 @endsection
-

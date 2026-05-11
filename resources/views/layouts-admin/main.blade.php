@@ -31,8 +31,8 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <h1 class="navbar-brand navbar-brand-autodark">
-                    <a href=".">
-                        <span class="text-primary font-weight-bold">Toko</span>Mirai
+                    <a href="./">
+                        <img src="{{ asset('assets/images/logo/tokomirai-white-logo.png') }}" alt="TokoMirai Logo" class="navbar-brand-image" width="32" height="32">
                     </a>
                 </h1>
                 <div class="collapse navbar-collapse" id="sidebar-menu">
@@ -65,9 +65,37 @@
                                 <span class="nav-link-title">Produk & Layanan</span>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Daftar Layanan</a>
-                                <a class="dropdown-item" href="#">Kategori</a>
+                                <a class="dropdown-item" href="{{ route('admin.products') }}">Daftar Product</a>
+                                <a class="dropdown-item" href="{{ route('admin.services') }}">Daftar Layanan</a>
                             </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-report-money">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
+                                        <path d="M9 5a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2" />
+                                        <path d="M14 11h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5" />
+                                        <path d="M12 17v1m0 -8v1" />
+                                    </svg>
+                                </span>
+                                <span class="nav-link-title">Transaksi</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="./">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-message-user">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M13 18l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v4.5" />
+                                        <path d="M17 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                        <path d="M22 22a2 2 0 0 0 -2 -2h-2a2 2 0 0 0 -2 2" />
+                                    </svg>
+                                </span>
+                                <span class="nav-link-title">Customer</span>
+                            </a>
                         </li>
                     </ul>
                 </div>

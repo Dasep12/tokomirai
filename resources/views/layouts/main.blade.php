@@ -47,7 +47,7 @@
         <a><i class="ti ti-help-circle"></i> Dukungan</a> -->
     </div>
 
-    @include("layouts.navbar");
+    @include("layouts.navbar")
 
     <!-- MOBILE SEARCH -->
     <div class="mob-srch" id="mobSrch">
@@ -97,54 +97,11 @@
         }];
 
         const SERVICES = [{
-                ic: 'ti-device-desktop',
-                nm: 'Instalasi & Setup PC/Laptop',
-                desc: 'Pemasangan OS (Windows/Linux/macOS), driver, software esensial, dan konfigurasi awal perangkat baru maupun lama.',
-                pr: 'Mulai Rp 150.000'
-            },
-            {
-                ic: 'ti-router',
-                nm: 'Setup Jaringan & WiFi',
-                desc: 'Instalasi dan konfigurasi router, switch, access point, serta desain topologi jaringan untuk kantor atau rumah.',
-                pr: 'Mulai Rp 300.000'
-            },
-            {
-                ic: 'ti-shield-lock',
-                nm: 'Keamanan IT & Antivirus',
-                desc: 'Audit keamanan sistem, pemasangan antivirus enterprise, hardening, dan proteksi terhadap ransomware.',
-                pr: 'Mulai Rp 500.000'
-            },
-            {
-                ic: 'ti-database-import',
-                nm: 'Backup & Recovery Data',
-                desc: 'Pemulihan data dari HDD/SSD rusak, sistem terenkripsi ransomware, atau file terhapus tidak sengaja.',
-                pr: 'Mulai Rp 350.000'
-            },
-            {
-                ic: 'ti-tools',
-                nm: 'Servis & Perbaikan Hardware',
-                desc: 'Penggantian LCD, keyboard, baterai, motherboard, thermal paste, dan komponen hardware laptop maupun PC.',
-                pr: 'Mulai Rp 100.000'
-            },
-            {
-                ic: 'ti-cloud-upload',
-                nm: 'Migrasi Cloud & Server',
-                desc: 'Migrasi workload ke cloud AWS/GCP/Azure atau setup dan konfigurasi server on-premise untuk bisnis Anda.',
-                pr: 'Mulai Rp 1.000.000'
-            },
-            {
-                ic: 'ti-chart-bar',
-                nm: 'IT Consulting & Audit',
-                desc: 'Konsultasi infrastruktur IT, audit sistem eksisting, gap analysis, dan rekomendasi solusi teknologi.',
-                pr: 'Mulai Rp 750.000'
-            },
-            {
-                ic: 'ti-printer',
-                nm: 'Servis Printer & Multifungsi',
-                desc: 'Setup printer jaringan, sharing, penggantian cartridge/toner, chip reset, dan perawatan berkala.',
-                pr: 'Mulai Rp 100.000'
-            },
-        ];
+            ic: 'ti-device-desktop',
+            nm: '',
+            desc: '',
+            pr: ''
+        }];
 
         /* ── STATE ─────────────────────────────────── */
         let cart = [];

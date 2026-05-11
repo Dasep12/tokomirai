@@ -85,6 +85,23 @@
     function renderProds(list) {
         const g = document.getElementById('prodGrid');
 
+        function formatSpec(sp, limit = 50) {
+            let spec = '';
+
+            try {
+                const parsed = JSON.parse(sp);
+
+                spec = Array.isArray(parsed) ?
+                    parsed.join(', ') :
+                    parsed;
+            } catch {
+                spec = sp || '';
+            }
+
+            return spec.length > limit ?
+                spec.substring(0, limit) + '...' :
+                spec;
+        }
         if (!list.length) {
             g.innerHTML = '<p style="color:var(--gray-b);grid-column:1/-1;padding:1rem">Tidak ada produk ditemukan.</p>';
             return;
@@ -106,7 +123,7 @@
 
             <div class="prod-body">
                 <div class="prod-name">${p.nm}</div>
-                <div class="prod-spec">${p.sp ?? ''}</div>
+                <div class="prod-spec">${formatSpec(p.sp)}</div>
 
                 <div class="prod-rating">
                     <span class="stars">

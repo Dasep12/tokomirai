@@ -12,7 +12,10 @@
  @push("scripts")
  <script>
      async function renderSvcs() {
-
+         // 🔥 FORMAT RUPIAH
+         function formatRupiah(angka) {
+             return new Intl.NumberFormat('id-ID').format(angka);
+         }
          try {
 
              const response = await fetch("{{ route('home.service-json') }}");
@@ -32,7 +35,7 @@
 
                 <div class="svc-price">
                     <i class="ti ti-tag" style="font-size:11px"></i>
-                    ${s.price}
+                    Harga Mulai dari  ${formatRupiah(s.price)}
                 </div>
 
                <button class="btn-svc" onclick="orderSvc('${s.name}')">

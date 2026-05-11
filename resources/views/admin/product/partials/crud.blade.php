@@ -84,7 +84,7 @@
                             </label>
                         </div>
                     </div>
-                    <input type="text" id="crud-action" name="crud-action">
+                    <input type="text" hidden id="crud-action" name="crud-action">
                     <div id="ErrInfo"></div>
                 </div>
                 <div class="modal-footer">

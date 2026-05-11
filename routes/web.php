@@ -89,4 +89,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/products/detail', [App\Http\Controllers\Admin\ProductController::class, 'detail'])->name('admin.products.detail');
     Route::post('/products/crud', [App\Http\Controllers\Admin\ProductController::class, 'crud'])->name('admin.products.crud');
     Route::get('/products/loadcategory', [App\Http\Controllers\Admin\ProductController::class, 'loadcategory'])->name('admin.products.loadcategory');
+
+    Route::get('/services', [App\Http\Controllers\Admin\ServiceController::class, 'services'])->name('admin.services');
+    Route::get('/services/detail', [App\Http\Controllers\Admin\ServiceController::class, 'detail'])->name('admin.services.detail');
+    Route::post('/services/crud', [App\Http\Controllers\Admin\ServiceController::class, 'crud'])->name('admin.services.crud');
+    // Route::get('/services/loadcategory', [App\Http\Controllers\Admin\ServiceController::class, 'loadcategory'])->name('admin.services.loadcategory');
 });

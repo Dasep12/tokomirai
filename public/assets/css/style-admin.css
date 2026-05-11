@@ -1,3 +1,7 @@
+.custom-sidebar {
+    background: #005fb2;
+}
+
 .upload-wrapper {
     display: flex;
     flex-wrap: wrap;
