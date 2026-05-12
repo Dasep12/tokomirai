@@ -437,6 +437,10 @@
             city: document.getElementById('fc_city').selectedOptions[0].text,
             district: document.getElementById('fc_district').selectedOptions[0].text,
             village: document.getElementById('fc_village').selectedOptions[0].text,
+            province_id: document.getElementById('fc_province').value,
+            city_id: document.getElementById('fc_city').value,
+            district_id: document.getElementById('fc_district').value,
+            village_id: document.getElementById('fc_village').value,
             postal_code: document.getElementById('fz').value.trim(),
         };
 

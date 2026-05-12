@@ -242,6 +242,12 @@ class HomeController extends Controller
                 'district' => $request->district,
                 'village' => $request->village,
 
+                // 🔥 SIMPAN ID (bukan NAMA)
+                'province_id' => $request->province_id,
+                'city_id' => $request->city_id,
+                'district_id' => $request->district_id,
+                'village_id' => $request->village_id,
+
                 'postal_code' => $request->postal_code,
 
                 'total' => $subtotal,
