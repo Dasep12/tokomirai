@@ -1,11 +1,11 @@
 <div class="modal modal-blur fade" id="modal-service" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <form id="serviceForm" enctype="multipart/form-data" action="" method="POST">
+            <form id="transactionForm" enctype="multipart/form-data" action="" method="POST">
                 @csrf
                 <div id="methodField"></div>
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Tambah Service Baru</h5>
+                    <h5 class="modal-title" id="modalTitle">Tambah Transaction Baru</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -94,90 +94,176 @@
 
 @push('scripts')
 <script>
-    const serviceForm = $('#serviceForm');
+    const transactionForm = $('#transactionForm');
 
 
     // ==============================
     // RESET FORM
     // ==============================
     function resetForm() {
-        serviceForm[0].reset();
+        transactionForm[0].reset();
     }
 
-    fetch('/api/provinces')
-        .then(res => res.json())
-        .then(data => {
-            let province = document.getElementById('province');
-            province.innerHTML = '<option value="">Pilih Provinsi</option>';
+    async function loadProvinces(selectedProvince = null) {
+        let response = await fetch('/api/provinces');
+        let data = await response.json();
+        let province = $('#province');
+        province.html('<option value="">Pilih Provinsi</option>');
+        data.forEach(item => {
+            province.append(`
+            <option value="${item.id}">
+                ${item.name}
+            </option>
+        `);
+        });
+        if (selectedProvince) {
+            province.val(selectedProvince);
+        }
+    }
 
-            data.forEach(item => {
-                province.innerHTML += `<option value="${item.id}">${item.name}</option>`;
-            });
+    async function loadCities(provinceId, selectedCity = null) {
+        if (!provinceId) return;
+        let response = await fetch(`/api/cities/${provinceId}`);
+        let data = await response.json();
+        let city = $('#city');
+        city.html('<option value="">Pilih Kota</option>');
+
+        data.forEach(item => {
+            city.append(`
+            <option value="${item.id}">
+                ${item.name}
+            </option>
+        `);
         });
 
+        if (selectedCity) {
+            city.val(selectedCity);
+        }
+    }
+
     // 🔹 PROVINCE → CITY
-    $('#province').on('change', function() {
-        let id = this.value;
-        console.log('Province ID : ', id);
-        fetch(`/api/cities/${id}`)
-            .then(res => res.json())
-            .then(data => {
-                let city = $('#city');
-                city.html('<option value="">Pilih Kota</option>');
-                data.forEach(item => {
-                    city.append(`
-                    <option value="${item.id}">
-                        ${item.name}
-                    </option>
-                `);
-                });
-                resetSelect('district');
-                resetSelect('village');
-            });
+    $('#province').on('change', async function() {
+        let provinceId = this.value;
+        await loadCities(provinceId);
+        resetSelect('district');
+        resetSelect('village');
     });
 
 
-    // 🔹 CITY → DISTRICT
-    $('#city').on('change', function() {
-        let id = this.value;
+    // =============================
+    // LOAD DISTRICTS
+    // =============================
+    async function loadDistricts(cityId, selectedDistrict = null) {
 
-        fetch(`/api/districts/${id}`)
-            .then(res => res.json())
-            .then(data => {
-                let district = $('#district');
-                district.html('<option value="">Pilih Kecamatan</option>');
+        let district = $('#district');
 
-                data.forEach(item => {
-                    district.append(`
-                    <option value="${item.id}">
-                        ${item.name}
-                    </option>
-                `);
-                });
+        district.html('<option value="">Loading...</option>');
 
-                resetSelect('village');
+        resetSelect('village');
+
+        if (!cityId) {
+            district.html('<option value="">Pilih Kecamatan</option>');
+            return;
+        }
+
+        try {
+
+            let response = await fetch(`/api/districts/${cityId}`);
+
+            if (!response.ok) {
+                throw new Error('Failed load districts');
+            }
+
+            let data = await response.json();
+
+            district.html('<option value="">Pilih Kecamatan</option>');
+
+            data.forEach(item => {
+                district.append(`
+                <option value="${item.id}">
+                    ${item.name}
+                </option>
+            `);
             });
+
+            // AUTO SELECT
+            if (selectedDistrict) {
+                district
+                    .val(selectedDistrict)
+                    .trigger('change');
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            district.html(`
+            <option value="">
+                Gagal load kecamatan
+            </option>
+        `);
+        }
+    }
+
+
+    // =============================
+    // LOAD VILLAGES
+    // =============================
+    async function loadVillages(districtId, selectedVillage = null) {
+        let village = $('#village');
+        village.html('<option value="">Loading...</option>');
+        if (!districtId) {
+            village.html('<option value="">Pilih Desa</option>');
+            return;
+        }
+        try {
+            let response = await fetch(`/api/villages/${districtId}`);
+            if (!response.ok) {
+                throw new Error('Failed load villages');
+            }
+            let data = await response.json();
+            village.html('<option value="">Pilih Desa</option>');
+            data.forEach(item => {
+                village.append(`
+                <option value="${item.id}">
+                    ${item.name}
+                </option>
+            `);
+            });
+            // AUTO SELECT
+            if (selectedVillage) {
+                village
+                    .val(selectedVillage)
+                    .trigger('change');
+            }
+        } catch (error) {
+
+            console.error(error);
+
+            village.html(`
+            <option value="">
+                Gagal load desa
+            </option>
+        `);
+        }
+    }
+
+
+    // =============================
+    // CITY CHANGE
+    // =============================
+    $('#city').on('change', async function() {
+        let cityId = this.value;
+        await loadDistricts(cityId);
     });
 
 
-    // 🔹 DISTRICT → VILLAGE
-    $('#district').on('change', function() {
-        let id = this.value;
-
-        fetch(`/api/villages/${id}`)
-            .then(res => res.json())
-            .then(data => {
-                let village = $('#village');
-                village.html('<option value="">Pilih Desa</option>');
-
-                data.forEach(item => {
-                    village.append(`
-                    <option value="${item.id}">
-                        ${item.name}
-                    </option>
-                `);
-                });
-            });
+    // =============================
+    // DISTRICT CHANGE
+    // =============================
+    $('#district').on('change', async function() {
+        let districtId = this.value;
+        await loadVillages(districtId);
     });
 
 
@@ -190,22 +276,22 @@
     // ==============================
     // CRUD MODAL
     // ==============================
-    function CrudServices(action, id = null) {
+    function CrudTransactions(action, id = null) {
         resetForm();
         $('#crud-action').val(action);
         const config = {
             create: {
-                title: 'Tambah Service Baru',
+                title: 'Tambah Transaction Baru',
                 buttonClass: 'btn-primary',
                 buttonText: 'Simpan Data <i class="ti ti-check"></i>'
             },
             update: {
-                title: 'Update Service',
+                title: 'Update Transaction',
                 buttonClass: 'btn-primary',
                 buttonText: 'Update Data <i class="ti ti-check"></i>'
             },
             delete: {
-                title: 'Hapus Service',
+                title: 'Hapus Transaction',
                 buttonClass: 'btn-danger',
                 buttonText: 'Hapus Data <i class="ti ti-x"></i>'
             }
@@ -219,6 +305,13 @@
             .html(current.buttonText);
         if (action === 'update' || action === 'delete') {
             getDetail(id);
+            $('#serviceForm')
+                .find('input, textarea')
+                .prop('readonly', true);
+
+            $('#serviceForm')
+                .find('select')
+                .prop('disabled', true);
         }
         $("#modal-service").modal('show');
     }
@@ -246,35 +339,42 @@
             $('#phone').val(data.transaction.phone);
             $('#address').val(data.transaction.address);
 
-            // Province
-            $('#province')
-                .val(data.transaction.province_id)
-                .trigger('change');
+            await loadProvinces(data.transaction.province_id);
+            await loadCities(
+                data.transaction.province_id,
+                data.transaction.city_id
+            );
 
-            await delay(500);
+            await loadDistricts(
+                data.transaction.city_id,
+                data.transaction.district_id
+            );
 
-            // City
-            $('#city')
-                .val(data.transaction.city_id);
-            console.log('City ID : ', data.transaction.city_id);
-            await delay(500);
+            await loadVillages(
+                data.transaction.district_id,
+                data.transaction.village_id
+            );
 
-            // District
-            $('#district')
-                .val(data.transaction.district_id)
-                .trigger('change');
+            // // City
+            // $('#city')
+            //     .val(data.transaction.city_id);
+            // console.log('City ID : ', data.transaction.city_id);
+            // await delay(500);
 
-            await delay(500);
+            // // District
+            // $('#district')
+            //     .val(data.transaction.district_id)
+            //     .trigger('change');
 
-            // Village
-            $('#village')
-                .val(data.transaction.village_id)
-                .trigger('change');
+            // await delay(500);
+
+            // // Village
+            // $('#village')
+            //     .val(data.transaction.village_id)
+            //     .trigger('change');
 
         } catch (error) {
-
             console.error(error);
-
             alert('Gagal mengambil detail transaksi');
 
         }

@@ -21,10 +21,76 @@
     <div class="container-xl">
         <div class="row row-cards">
             <div class="col-12">
+                <div class="transaction-tabs mb-1">
+
+                    <a href="#"
+                        class="transaction-tab active"
+                        data-status="">
+                        <div class="tab-icon bg-blue-lt">
+                            <i class="ti ti-layout-grid"></i>
+                        </div>
+                        <div>
+                            <div class="tab-title">All</div>
+                            <div class="tab-subtitle">All Transactions</div>
+                        </div>
+                    </a>
+
+                    <a href="#"
+                        class="transaction-tab"
+                        data-status="pending">
+                        <div class="tab-icon bg-yellow-lt">
+                            <i class="ti ti-clock"></i>
+                        </div>
+                        <div>
+                            <div class="tab-title">Pending</div>
+                            <div class="tab-subtitle">Waiting Approval</div>
+                        </div>
+                    </a>
+
+                    <a href="#"
+                        class="transaction-tab"
+                        data-status="process">
+                        <div class="tab-icon bg-blue-lt">
+                            <i class="ti ti-loader"></i>
+                        </div>
+                        <div>
+                            <div class="tab-title">Process</div>
+                            <div class="tab-subtitle">Processing Order</div>
+                        </div>
+                    </a>
+
+                    <a href="#"
+                        class="transaction-tab"
+                        data-status="shipping">
+                        <div class="tab-icon bg-cyan-lt">
+                            <i class="ti ti-truck-delivery"></i>
+                        </div>
+                        <div>
+                            <div class="tab-title">Pengiriman</div>
+                            <div class="tab-subtitle">Shipping Order</div>
+                        </div>
+                    </a>
+
+                    <a href="#"
+                        class="transaction-tab"
+                        data-status="done">
+                        <div class="tab-icon bg-green-lt">
+                            <i class="ti ti-circle-check"></i>
+                        </div>
+                        <div>
+                            <div class="tab-title">Done</div>
+                            <div class="tab-subtitle">Completed Order</div>
+                        </div>
+                    </a>
+
+                </div>
                 <div class="card">
+
                     <div class="card-header">
-                        <h3 class="card-title">Daftar Layanan TokoMirai</h3>
+                        <h3>Transaction List</h3>
                     </div>
+
+                    <input type="hidden" id="status-filter" value="">
 
                     <div class="card-body border-bottom py-3">
                         <form action="{{ route('admin.services') }}" method="GET" id="filter-form">
@@ -52,6 +118,7 @@
                             </div>
                         </form>
                     </div>
+
                     <div class="table-responsive">
                         <div id="transactionTable">
                             @include('admin.transaction.partials.table')
@@ -65,3 +132,4 @@
 @endsection
 
 @include('admin.transaction.partials.crud')
+@include('admin.transaction.partials.crud-process')
