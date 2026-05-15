@@ -14,7 +14,8 @@ class HomeController extends Controller
     //
     public function index()
     {
-        return view('home.index');
+        $category = DB::table('mst_category')->get();
+        return view('home.index', compact('category'));
     }
 
     public function checkout()

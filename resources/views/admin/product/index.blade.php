@@ -82,4 +82,8 @@
 </div>
 @endsection
 
+@push("scripts")
+<script>
+</script>
+@endpush
 @include('admin.product.partials.crud')

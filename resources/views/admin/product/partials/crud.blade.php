@@ -318,7 +318,7 @@
                 console.log(res);
                 $('#modal-product').modal('hide');
                 selectedFiles = [];
-                // showToast(res.message ?? res, 'success');
+                showToast(res.message ?? res, 'success');
                 loadProducts();
             },
             error: function(xhr) {
@@ -332,7 +332,7 @@
                         ${message}
                     </div>
                 `);
-                // showToast(message, 'error');
+                showToast(message, 'error');
             },
             complete: function() {
                 let action = $('#crud-action').val();

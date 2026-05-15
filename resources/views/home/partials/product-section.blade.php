@@ -7,13 +7,16 @@
         </div>
         <div class="prod-tabs" id="prodTabs">
             <button class="prod-tab active" onclick="setProdTab(this,'all')">Semua</button>
-            <button class="prod-tab" onclick="setProdTab(this,'laptop')">Laptop & PC</button>
-            <button class="prod-tab" onclick="setProdTab(this,'networking')">Networking</button>
+            @foreach($category as $categ)
+            <button class="prod-tab" onclick="setProdTab(this,'{{ $categ->id }}')">{{ $categ->name_category }}</button>
+
+            @endforeach
+            <!-- <button class="prod-tab" onclick="setProdTab(this,'networking')">Networking</button>
             <button class="prod-tab" onclick="setProdTab(this,'storage')">Storage</button>
             <button class="prod-tab" onclick="setProdTab(this,'aksesoris')">Aksesoris</button>
             <button class="prod-tab" onclick="setProdTab(this,'monitor')">Monitor</button>
             <button class="prod-tab" onclick="setProdTab(this,'server')">Server</button>
-            <button class="prod-tab" onclick="setProdTab(this,'security')">Security</button>
+            <button class="prod-tab" onclick="setProdTab(this,'security')">Security</button> -->
         </div>
         <div class="prod-grid" id="prodGrid"></div>
         <div style="text-align:center;margin-top:1.5rem;display: none;">

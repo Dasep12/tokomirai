@@ -37,8 +37,10 @@
                 </h1>
                 <div class="collapse navbar-collapse" id="sidebar-menu">
                     <ul class="navbar-nav pt-lg-3">
-                        <li class="nav-item">
-                            <a class="nav-link" href="./">
+
+                        <!-- Dashboard -->
+                        <li class="nav-item {{ Request::is('admin/dashboard') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('admin.home') }}">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -50,8 +52,16 @@
                                 <span class="nav-link-title">Dashboard</span>
                             </a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false">
+
+                        <!-- Produk & Layanan (Dropdown) -->
+                        {{-- Kita gunakan wildcard '*' agar menu utama tetap active saat sub-menu dibuka --}}
+                        <li class="nav-item dropdown {{ Request::routeIs('admin.products*') || Request::routeIs('admin.services*') ? 'active' : '' }}">
+                            <a class="nav-link dropdown-toggle {{ Request::routeIs('admin.products*') || Request::routeIs('admin.services*') ? 'show' : '' }}"
+                                href="#navbar-base"
+                                data-bs-toggle="dropdown"
+                                data-bs-auto-close="false"
+                                role="button"
+                                aria-expanded="{{ Request::routeIs('admin.products*') || Request::routeIs('admin.services*') ? 'true' : 'false' }}">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -64,12 +74,14 @@
                                 </span>
                                 <span class="nav-link-title">Produk & Layanan</span>
                             </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ route('admin.products') }}">Daftar Product</a>
-                                <a class="dropdown-item" href="{{ route('admin.services') }}">Daftar Layanan</a>
+                            <div class="dropdown-menu {{ Request::routeIs('admin.products*') || Request::routeIs('admin.services*') ? 'show' : '' }}">
+                                <a class="dropdown-item {{ Request::routeIs('admin.products*') ? 'active' : '' }}" href="{{ route('admin.products') }}">Daftar Product</a>
+                                <a class="dropdown-item {{ Request::routeIs('admin.services*') ? 'active' : '' }}" href="{{ route('admin.services') }}">Daftar Layanan</a>
                             </div>
                         </li>
-                        <li class="nav-item">
+
+                        <!-- Transaksi -->
+                        <li class="nav-item {{ Request::routeIs('admin.transactions*') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('admin.transactions') }}">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-report-money">
@@ -84,7 +96,8 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
+                        <!-- Customer -->
+                        <li class="nav-item {{ Request::routeIs('admin.customers*') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('admin.customers') }}">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-message-user">
@@ -95,6 +108,22 @@
                                     </svg>
                                 </span>
                                 <span class="nav-link-title">Customer</span>
+                            </a>
+                        </li>
+
+                        <!-- Users -->
+                        <li class="nav-item {{ Request::routeIs('admin.customers*') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('admin.customers') }}">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-users">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                        <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+                                    </svg>
+                                </span>
+                                <span class="nav-link-title">Users</span>
                             </a>
                         </li>
                     </ul>
@@ -170,31 +199,36 @@
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
 
     <script>
         function showToast(message, type = 'success') {
-            let toastEl = $('#liveToast');
-            toastEl.removeClass(
-                'bg-success',
-                'bg-danger',
-                'bg-warning',
-                'text-white'
-            );
-            switch (type) {
-                case 'success':
-                    toastEl.addClass('bg-success text-white');
-                    break;
-                case 'error':
-                    toastEl.addClass('bg-danger text-white');
-                    break;
-                case 'warning':
-                    toastEl.addClass('bg-warning');
-                    break;
-            }
+            // 1. Ambil elemen Toast (Gunakan Vanilla JS agar lebih kompatibel)
+            const toastEl = document.getElementById('liveToast');
+            if (!toastEl) return;
+
+            // 2. Atur warna background
+            $(toastEl).removeClass('bg-success bg-danger bg-warning text-white');
+            if (type === 'success') $(toastEl).addClass('bg-success text-white');
+            else if (type === 'error') $(toastEl).addClass('bg-danger text-white');
+            else if (type === 'warning') $(toastEl).addClass('bg-warning');
+
+            // 3. Isi pesan
             $('#toastMessage').html(message);
-            const toast = new bootstrap.Toast(toastEl);
-            toast.show();
+
+            // 4. Deteksi Object Bootstrap (Solusi Utama agar Dropdown tidak rusak)
+            // Tabler biasanya mengekspos bootstrap di bawah window.bootstrap
+            const bootstrapInstance = window.bootstrap || (window.tabler ? window.tabler.bootstrap : null);
+
+            if (bootstrapInstance) {
+                const toast = new bootstrapInstance.Toast(toastEl);
+                toast.show();
+            } else {
+                // Jika masih error, gunakan cara paksa manual (Fallback)
+                $(toastEl).addClass('show');
+                setTimeout(() => $(toastEl).removeClass('show'), 3000);
+            }
         }
     </script>
     @stack('scripts')

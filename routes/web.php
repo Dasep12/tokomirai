@@ -84,7 +84,7 @@ Route::get('/api/villages/{id}', function ($id) {
 
 // ADMIN ROUTES
 Route::prefix('admin')->group(function () {
-    Route::get('/', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
+    Route::get('/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
     Route::get('/products', [App\Http\Controllers\Admin\ProductController::class, 'products'])->name('admin.products');
     Route::get('/products/detail', [App\Http\Controllers\Admin\ProductController::class, 'detail'])->name('admin.products.detail');
     Route::post('/products/crud', [App\Http\Controllers\Admin\ProductController::class, 'crud'])->name('admin.products.crud');
