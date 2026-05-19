@@ -83,8 +83,9 @@ class TransactionController extends Controller
     {
         $perPage = $request->get('show', 10);
         $search = $request->get('search');
-        $query = DB::table('vw_customers_list')
-            ->select('*');
+        $query =  DB::table('transactions')
+            ->selectRaw('name,email,phone,MAX(created_at) as created_at')
+            ->groupBy('name', 'email', 'phone');
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'LIKE', "%{$search}%")

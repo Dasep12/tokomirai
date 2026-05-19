@@ -515,7 +515,8 @@
             display: flex;
             gap: 8px;
             overflow-x: auto;
-            scrollbar-width: none
+            scrollbar-width: none;
+            justify-content:center;
         }
 
         .cat-shortcuts-inner::-webkit-scrollbar {
@@ -541,15 +542,15 @@
         }
 
         .cat-sc-icon {
-            width: 52px;
-            height: 52px;
+            width: 85px;
+            height: 85px;
             border-radius: var(--r-lg);
             background: var(--gray-f8);
             border: 1px solid var(--gray-e);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.6rem;
+            font-size: 2rem;
             transition: border-color .2s
         }
 

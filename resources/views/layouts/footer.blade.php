@@ -7,7 +7,7 @@
             </div>
             <div class="footer-desc">Distributor produk IT terpercaya sejak 2024. Melayani kebutuhan hardware, software, dan jasa IT untuk bisnis dan personal di seluruh Indonesia.</div>
             <div class="footer-contact">
-                📞 62 852-1802-6895<br>
+                📞 62 811-8886-2020<br>
                 📧 marketing@miraisoftnet.com<br>
                 📍 Vasanta Innopark, Kabupaten Bekasi, Jawa Barat 17530<br>
                 🕐 Senin–Jumat, 07:15–16:00 WIB

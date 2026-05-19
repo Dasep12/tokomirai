@@ -99,4 +99,9 @@ Route::prefix('admin')->group(function () {
     Route::post('/transactions/crud', [App\Http\Controllers\Admin\TransactionController::class, 'crud'])->name('admin.transactions.crud');
 
     Route::get('/customers', [App\Http\Controllers\Admin\TransactionController::class, 'customers'])->name('admin.customers');
+
+    Route::get('/users', [App\Http\Controllers\Admin\UsersController::class, 'user'])->name('admin.users');
+    Route::get('/users/detail', [App\Http\Controllers\Admin\UsersController::class, 'detail'])->name('admin.users.detail');
+    Route::post('/users/crud', [App\Http\Controllers\Admin\UsersController::class, 'crud'])->name('admin.users.crud');
+    
 });
