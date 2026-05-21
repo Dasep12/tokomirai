@@ -237,6 +237,7 @@ class HomeController extends Controller
                 'phone' => $request->phone,
                 'email' => $request->email,
                 'address' => $request->address,
+                'status' => 'PENDING',
 
                 // 🔥 SIMPAN NAMA (bukan ID)
                 'province' => $request->province,

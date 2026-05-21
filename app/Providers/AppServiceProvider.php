@@ -21,5 +21,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Paginator::useBootstrapFive();
+        \Carbon\Carbon::setLocale('id');
+        \Illuminate\Support\Facades\Date::setLocale('id');
     }
 }

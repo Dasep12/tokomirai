@@ -1,3 +1,7 @@
+<?php
+
+use Illuminate\Support\Facades\Auth;
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -138,15 +142,15 @@
                     <div class="navbar-nav flex-row order-md-last">
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown">
-                                <span class="avatar avatar-sm">TM</span>
+                                <span class="avatar avatar-sm"><i class="ti ti-users"></i></span>
                                 <div class="d-none d-xl-block ps-2">
                                     <div>Admin TokoMirai</div>
-                                    <div class="mt-1 small text-secondary">Super Admin</div>
+                                    <div class="mt-1 small text-secondary">{{ Auth::user()->name }}</div>
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <a href="#" class="dropdown-item">Settings</a>
-                                <a href="#" class="dropdown-item">Logout</a>
+                                <!-- <a href="#" class="dropdown-item">Settings</a> -->
+                                <a href="/logout" class="dropdown-item">Logout</a>
                             </div>
                         </div>
                     </div>

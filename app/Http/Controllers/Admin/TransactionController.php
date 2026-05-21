@@ -72,7 +72,7 @@ class TransactionController extends Controller
             $transaction->save();
             self::sendMail($id);
             DB::commit();
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true, 'message' => 'Data di proses']);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
@@ -115,6 +115,6 @@ class TransactionController extends Controller
     public function sendMail($id)
     {
         $transaction = Transactions::find($id);
-        Mail::to('developer@bithrms.com')->send(new NotificationMail($transaction));
+        Mail::to($transaction->email)->send(new NotificationMail($transaction));
     }
 }

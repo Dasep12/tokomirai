@@ -52,11 +52,11 @@ class OrderMail extends Mailable
     // }
 
     public $data;
-    public $transaction;
-    public function __construct($data, $transaction)
+    // public $transaction;
+    public function __construct($data)
     {
         $this->data = $data;
-        $this->transaction = $transaction;
+        // $this->transaction = $transaction;
     }
 
     public function build()
