@@ -38,7 +38,7 @@
     <div class="utility-bar">
         <a target="_blank" href="https://www.google.com/maps/dir//Apartemen+Vasanta+Innopark,+Jl.+Kalimantan,+Gandamekar,+Kec.+Cikarang+Bar.,+Kabupaten+Bekasi,+Jawa+Barat+17530/@-6.2849024,107.085824,14z/data=!4m8!4m7!1m0!1m5!1m1!1s0x2e698fe230abdd3d:0xff20c0734390dde7!2m2!1d107.0856176!2d-6.2906623?hl=id-ID&entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D"><i class="ti ti-map-pin"></i> Toko Kami</a>
         <span class="sep">|</span>
-        <a target="_blank" href="https://wa.me/6281188862020"><i class="ti ti-headset"></i> 62 811-8886-2020</a>
+        <a target="_blank" href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $global_settings['contact_marketing']->values) }}"><i class="ti ti-headset"></i> {{ $global_settings['contact_marketing']->values  }}</a>
         <span class="sep">|</span>
         <!-- <a><i class="ti ti-truck"></i> Lacak Pesanan</a>
         <span class="sep">|</span> -->

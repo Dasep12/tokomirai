@@ -103,5 +103,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/users', [App\Http\Controllers\Admin\UsersController::class, 'user'])->name('admin.users');
     Route::get('/users/detail', [App\Http\Controllers\Admin\UsersController::class, 'detail'])->name('admin.users.detail');
     Route::post('/users/crud', [App\Http\Controllers\Admin\UsersController::class, 'crud'])->name('admin.users.crud');
-    
+
+    Route::get('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('admin.settings');
+    Route::get('/settings/detail', [App\Http\Controllers\Admin\SettingsController::class, 'detail'])->name('admin.settings.detail');
+    Route::post('/settings/crud', [App\Http\Controllers\Admin\SettingsController::class, 'crud'])->name('admin.settings.crud');
 });

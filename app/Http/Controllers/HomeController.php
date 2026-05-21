@@ -15,6 +15,8 @@ class HomeController extends Controller
     //
     public function index()
     {
+
+
         $category = DB::table('mst_category')->get();
         return view('home.index', compact('category'));
     }
@@ -274,7 +276,9 @@ class HomeController extends Controller
             }
 
             // 🔹 kirim email ke admin
-            Mail::to('developer@bithrms.com')->send(new OrderMail([
+            // $mail_to = setting('email_oder');
+            $mail_to = array_map('trim', explode(',', setting('email_oder')));
+            Mail::to($mail_to)->send(new OrderMail([
                 'invoice' => $invoice,
                 'name' => $request->name,
                 'phone' => $request->phone,

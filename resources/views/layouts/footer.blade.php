@@ -3,12 +3,16 @@
     <div class="footer-top">
         <div>
             <div class="footer-brand">
+                @if($global_settings['logo_footer']->values)
+                <img class="img-logo" src="{{ asset('assets/images/logo/' . $global_settings['logo_footer']->values) }}" alt="">
+                @else
                 <img class="img-logo" src="{{ asset('assets/images/logo/tokomirai-white-logo.png') }}" alt="">
+                @endif
             </div>
             <div class="footer-desc">Distributor produk IT terpercaya sejak 2024. Melayani kebutuhan hardware, software, dan jasa IT untuk bisnis dan personal di seluruh Indonesia.</div>
             <div class="footer-contact">
-                📞 62 811-8886-2020<br>
-                📧 marketing@miraisoftnet.com<br>
+                📞 {{ $global_settings['contact_marketing']->values ?? '-' }}<br>
+                📧 {{ $global_settings['email_marketing']->values ?? '-' }}<br>
                 📍 Vasanta Innopark, Kabupaten Bekasi, Jawa Barat 17530<br>
                 🕐 Senin–Jumat, 07:15–16:00 WIB
             </div>
