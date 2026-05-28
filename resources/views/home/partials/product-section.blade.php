@@ -8,7 +8,9 @@
         <div class="prod-tabs" id="prodTabs">
             <button class="prod-tab active" onclick="setProdTab(this,'all')">Semua</button>
             @foreach($category as $categ)
+            @if($categ->type == 'barang')
             <button class="prod-tab" onclick="setProdTab(this,'{{ $categ->id }}')">{{ $categ->name_category }}</button>
+            @endif
 
             @endforeach
             <!-- <button class="prod-tab" onclick="setProdTab(this,'networking')">Networking</button>
@@ -111,18 +113,21 @@
         }
 
         g.innerHTML = list.map(p => `
-        <div class="prod-card" >
-            <div class="prod-img-wrap">
-                ${p.badge ? `<span class="badge badge-${p.badge}">
-                    ${p.badge==='hot'?'🔥 HOT':p.badge==='new'?'✨ NEW':p.badge==='sale'?'💸 SALE':p.badge.toUpperCase()}
-                </span>` : ''}
-
-               ${p.img 
-                    ? `<img src="{{ asset('assets/images/products') }}/${p.img}" 
-                        style="width: 100%; height: 100px; object-fit: contain;">`
-                    : p.ic
-                }
-            </div>
+        <div class="prod-card">
+            ${p.img
+                ? `<div class="prod-img-wrap" style="">
+                       ${p.badge ? `<span class="badge badge-${p.badge} prod-badge">
+                           ${p.badge==='hot'?'🔥 HOT':p.badge==='new'?'✨ NEW':p.badge==='sale'?'💸 SALE':p.badge.toUpperCase()}
+                       </span>` : ''}
+                       <img src="{{ asset('assets/images/products') }}/${p.img}" class="product-img" alt="${p.nm}">
+                   </div>`
+                : `<div class="prod-img-wrap">
+                       ${p.badge ? `<span class="badge badge-${p.badge} prod-badge">
+                           ${p.badge==='hot'?'🔥 HOT':p.badge==='new'?'✨ NEW':p.badge==='sale'?'💸 SALE':p.badge.toUpperCase()}
+                       </span>` : ''}
+                       <div class="prod-img-placeholder"><span class="prod-img-placeholder-icon">${p.ic}</span></div>
+                   </div>`
+            }
 
             <div class="prod-body">
                 <div class="prod-name">${p.nm}</div>
@@ -138,16 +143,20 @@
                 <div class="prod-price">Rp ${p.pr.toLocaleString('id-ID')}</div>
 
                 <div class="prod-footer">
-                    <div class="status">
-                        <i class="ti ti-circle-check" style="font-size:12px"></i> Stok Tersedia
+                    <div class="prod-footer-status">
+                        <i class="ti ti-circle-check"></i>
+                        <span>Stok Tersedia</span>
                     </div>
-
-                    <a class="btn-view" style="text-decoration:none" onclick="event.stopPropagation();showDetail(${p.id})" >
-                        <i class="ti ti-eye"></i> Lihat
-                    </a>
-                    <button class="btn-add" id="ba${p.id}" onclick="event.stopPropagation();addById(${p.id})">
-                        <i class="ti ti-shopping-cart"></i> Beli
-                    </button>
+                    <div class="prod-footer-actions">
+                        <a class="btn-view" style="text-decoration:none" onclick="event.stopPropagation();showDetail(${p.id})">
+                            <i class="ti ti-eye"></i>
+                            <span class="btn-label">Lihat</span>
+                        </a>
+                        <button class="btn-add" id="ba${p.id}" onclick="event.stopPropagation();addById(${p.id})">
+                            <i class="ti ti-shopping-cart"></i>
+                            <span class="btn-label">Beli</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -10,7 +10,7 @@
             @include("layouts.search")
             @endif
             <!-- END -->
-            <div class="nav-actions">
+            <div class="nav-actions nav-actions-custom">
                 <a class="nav-act-btn" style="text-decoration: none;" href="/"><i class="ti ti-home"></i><span>Beranda</span></a>
 
                 @if (Auth::check())

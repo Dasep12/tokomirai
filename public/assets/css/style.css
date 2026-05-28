@@ -220,6 +220,42 @@
             margin-left: auto
         }
 
+        /* =========================
+        MOBILE
+        ========================= */
+        @media (max-width:768px){
+
+            .hmbg{
+                display:flex;
+                align-items:center;
+                justify-content:center;
+            }
+
+            .nav-actions-custom{
+                position:fixed;
+                top:0;
+                left:-100%;
+                width:280px;
+                height:100vh;
+                background:#fff;
+                flex-direction:column;
+                align-items:flex-start;
+                padding:80px 20px 20px;
+                transition:.3s ease;
+                z-index:9999;
+                box-shadow:0 0 20px rgba(0,0,0,.1);
+            }
+
+            .nav-actions.show{
+                left:0;
+            }
+
+            .nav-act-btn{
+                width:100%;
+                justify-content:flex-start;
+            }
+        }
+
         .nav-act-btn {
             background: none;
             border: none;
@@ -509,7 +545,7 @@
         }
 
         .cat-shortcuts-inner {
-            max-width: 1280px;
+            /* max-width: 1280px; */
             margin: 0 auto;
             padding: 0 1.5rem;
             display: flex;
@@ -749,7 +785,7 @@
         }
 
         /* ── PRODUCT TABS ──────────────── */
-        .prod-tabs {
+        /* .prod-tabs {
             display: flex;
             gap: 4px;
             margin-bottom: 1.25rem;
@@ -779,22 +815,98 @@
             color: var(--blue);
             border-bottom-color: var(--blue);
             background: var(--blue-l)
+        } */
+
+        .prod-tabs {
+            /* display: flex;
+            gap: 4px;
+
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid var(--gray-e);
+
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            white-space: nowrap;
+
+            scrollbar-width: none;
+            -ms-overflow-style: none; */
+        }
+
+        .prod-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .prod-tab {
+            flex: 0 0 auto;
+
+            background: none;
+            border: none;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            color: var(--gray-b);
+
+            padding: 10px 16px;
+
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+
+            cursor: pointer;
+            transition: all .18s;
+
+            border-radius: var(--r) var(--r) 0 0;
+        }
+
+        .prod-tab:hover {
+            color: var(--blue);
+        }
+
+        .prod-tab.active {
+            color: var(--blue);
+            border-bottom-color: var(--blue);
+            background: var(--blue-l);
+        }
+
+        @media (max-width: 768px) {
+            .prod-tab {
+                font-size: 12px;
+                padding: 10px 14px;
+            }
         }
 
         /* ── PRODUCT CARDS ─────────────── */
-       .prod-grid {
+        /* ── PRODUCT GRID - Responsive seperti Tokopedia ── */
+        .prod-grid {
             display: grid;
-            /* Default untuk HP: 2 kolom */
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 10px;
-            padding: 10px;
+            /* Default: 2 kolom di mobile (seperti Tokopedia) */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            padding: 4px 0;
         }
 
-        /* Untuk Tablet ke atas (layar > 768px): 3 atau 4 kolom */
+        /* Tablet ≥ 576px → 3 kolom */
+        @media (min-width: 576px) {
+            .prod-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+        }
+
+        /* Tablet besar ≥ 768px → 4 kolom */
         @media (min-width: 768px) {
             .prod-grid {
                 grid-template-columns: repeat(4, 1fr);
-                gap: 1rem;
+                gap: 12px;
+            }
+        }
+
+        /* Desktop ≥ 1200px → 5 kolom */
+        @media (min-width: 1200px) {
+            .prod-grid {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 12px;
             }
         }
 
@@ -807,7 +919,7 @@
             transition: all .22s;
             position: relative;
             display: flex;
-            flex-direction: column
+            flex-direction: column;
         }
 
         .prod-card:hover {
@@ -816,18 +928,69 @@
             transform: translateY(-3px)
         }
 
+        /* ── PRODUCT IMAGE - Persegi 1:1, blurred background fill ── */
         .prod-img-wrap {
-            /* background: linear-gradient(135deg, #f0f5ff, #e8f0fc); */
-            height: 160px;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            position: relative;
+            overflow: hidden;
+            background: #e8e8e8;
+        }
+
+        /*
+         * Blurred background layer:
+         * Gambar yang sama di-blur & di-zoom mengisi seluruh area,
+         * sehingga tidak ada gap warna polos yang terlihat.
+         */
+        .prod-img-wrap::before {
+            content: '';
+            position: absolute;
+            inset: -10%;          /* sedikit overflow agar blur tidak ada tepi tipis */
+            width: 120%;
+            height: 120%;
+            background: var(--prod-bg-img, none) center / cover no-repeat;
+            filter: blur(18px) brightness(0.85) saturate(1.1);
+            z-index: 0;
+        }
+
+        /* Gambar utama di atas layer blur */
+        .product-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;    /* tidak terpotong */
+            object-position: center;
+            display: block;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .prod-card:hover .product-img {
+            transform: scale(1.05);
+        }
+
+        /* ── PLACEHOLDER (tidak ada gambar) ── */
+        .prod-img-placeholder {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background: #e0e0e0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
-            position: relative;
-            overflow: hidden
+            z-index: 1;
         }
 
-        .prod-img-wrap .badge {
+        .prod-img-placeholder-icon {
+            font-size: 3rem;
+            opacity: 0.4;
+            user-select: none;
+        }
+
+        .prod-img-wrap .badge,
+        .prod-badge {
             position: absolute;
             top: 8px;
             left: 8px;
@@ -836,7 +999,8 @@
             padding: 3px 8px;
             border-radius: 4px;
             text-transform: uppercase;
-            letter-spacing: .04em
+            letter-spacing: .04em;
+            z-index: 2;   /* di atas blur layer dan gambar */
         }
 
         .badge-hot {
@@ -879,7 +1043,8 @@
             font-size: .75rem;
             color: var(--gray-b);
             margin-bottom: .6rem;
-            line-height: 1.4
+            line-height: 1.4;
+            display: none;
         }
 
         .prod-rating {
@@ -923,68 +1088,114 @@
             margin-top: 2px
         }
 
+        /* ── PRODUCT FOOTER ─────────────────────── */
+        /*
+         * Selalu stack vertikal:
+         * [status stok]
+         * [btn Lihat] [btn Beli]  ← grid 2 kolom
+         * Tidak ada overflow di ukuran apapun.
+         */
         .prod-footer {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: .75rem;
-            padding-top: .75rem;
-            border-top: 1px solid var(--gray-e)
+            flex-direction: column;
+            gap: 6px;
+            margin-top: .65rem;
+            padding-top: .65rem;
+            border-top: 1px solid var(--gray-e);
         }
 
-        .prod-footer .status {
-            font-size: .7rem;
-            color: var(--green);
-            font-weight: 600;
+        /* Baris status stok */
+        .prod-footer-status {
             display: flex;
             align-items: center;
-            gap: 3px
+            gap: 4px;
+            font-size: .68rem;
+            color: var(--green);
+            font-weight: 600;
         }
 
-        .status{
-            border-radius: var(--r)  !important;
+        .prod-footer-status i {
+            font-size: 13px;
         }
 
+        /* Wrapper 2 tombol – selalu grid 2 kolom */
+        .prod-footer-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            width: 100%;
+        }
+
+        /* ── BTN VIEW (Lihat) ─── */
         .btn-view {
-            background: var(--gray-6);
-            color: #fff;
-            border: none;
-            border-radius: var(--r);
-            padding: 7px 14px;
+            background: #f0f0f0;
+            color: #333;
+            border: 1px solid #ddd;
+            /* border-radius: 6px; */
+            padding: 7px 4px;
             font-size: 12px;
             font-weight: 700;
             transition: all .18s;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 4px
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            width: 100%;
+            white-space: nowrap;
         }
 
         .btn-view:hover {
-            background: var(--gray-b);
-            transform: scale(1.04)
+            background: #e0e0e0;
+            color: #111;
         }
 
+        /* ── BTN ADD (Beli) ─── */
         .btn-add {
             background: var(--blue);
             color: #fff;
             border: none;
-            border-radius: var(--r);
-            padding: 7px 14px;
+            /* border-radius: 6px; */
+            padding: 7px 4px;
             font-size: 12px;
             font-weight: 700;
             transition: all .18s;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 4px
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            width: 100%;
+            white-space: nowrap;
         }
 
         .btn-add:hover {
             background: var(--blue-d);
-            transform: scale(1.04)
         }
 
         .btn-add.added {
-            background: var(--green)
+            background: var(--green);
+        }
+
+        /* Layar sangat kecil < 360px: sembunyikan teks, hanya ikon */
+        @media (max-width: 359px) {
+            .btn-view .btn-label,
+            .btn-add .btn-label {
+                display: none;
+            }
+            .btn-view,
+            .btn-add {
+                padding: 8px;
+            }
+        }
+
+        /* Desktop: sedikit besarkan font tombol */
+        @media (min-width: 992px) {
+            .btn-view,
+            .btn-add {
+                font-size: 12.5px;
+                padding: 8px 6px;
+            }
         }
 
         /* ── EDITORIAL SPLIT ───────────── */
@@ -2168,9 +2379,9 @@
                 grid-template-columns: 1fr 1fr
             }
 
-            .prod-grid {
+            /* .prod-grid {
                 grid-template-columns: repeat(3, 1fr)
-            }
+            } */
 
             .svc-grid {
                 grid-template-columns: repeat(2, 1fr)
@@ -2204,10 +2415,10 @@
                 font-size: 1.5rem
             }
 
-            .prod-grid {
+            /* .prod-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: .65rem
-            }
+            } */
 
             .editorial-grid {
                 grid-template-columns: 1fr
@@ -2267,8 +2478,19 @@
 
         @media(max-width:480px) {
             .prod-img-wrap {
-                height: 130px;
-                font-size: 3.2rem
+                /* height: 130px; */
+                /* font-size: 3.2rem */
+                width: 100%;
+                /* height: 220px; */
+
+                position: relative;
+                overflow: hidden;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                background: #fff;
             }
 
             .prod-body {
@@ -2291,13 +2513,17 @@
                 padding: 0 .85rem;
                 gap: .5rem
             }
+
+             .cat-shortcuts-inner {
+                justify-content: normal;
+             }
         }
 
-        @media(max-width:1100px) {
+        /* @media(max-width:1100px) {
             .prod-grid {
                 grid-template-columns: repeat(3, 1fr)
             }
-        }
+        } */
 
          .account-page {
         min-height: 100vh;
