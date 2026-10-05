@@ -40,7 +40,10 @@ Route::get('/clear-cache', function () {
     return "Semua cache berhasil dibersihkan!";
 });
 
-Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/', function () {
+    return view('maintenance.index');
+});
+// Route::get('/', [HomeController::class, 'index'])->name('index');
 
 
 Route::middleware('auth')->group(function () {
